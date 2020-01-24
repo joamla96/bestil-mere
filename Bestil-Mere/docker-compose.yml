@@ -1,0 +1,22 @@
+version: '3.4'
+
+services:
+  customerservice:
+    image: ${DOCKER_REGISTRY}customerservice
+    build:
+      context: CustomerService/
+      dockerfile: Dockerfile
+
+#  orderapi:
+#    image: ${DOCKER_REGISTRY-}orderapi
+#    build:
+#      context: .
+#      dockerfile: OrderApi/Dockerfile
+#
+#
+#  productapi:
+#    image: ${DOCKER_REGISTRY-}productapi
+#    build:
+#      context: .
+#      dockerfile: ProductApi/Dockerfile
+
