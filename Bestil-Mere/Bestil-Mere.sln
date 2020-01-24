@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "Models\Models.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerService", "CustomerService\CustomerService.csproj", "{8B3030E9-B616-4F2C-A339-8041A5AC3DCE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gateway", "Gateway\Gateway.csproj", "{AC61C833-ED86-4521-BB8E-CA65D5674182}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{8B3030E9-B616-4F2C-A339-8041A5AC3DCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8B3030E9-B616-4F2C-A339-8041A5AC3DCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8B3030E9-B616-4F2C-A339-8041A5AC3DCE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC61C833-ED86-4521-BB8E-CA65D5674182}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC61C833-ED86-4521-BB8E-CA65D5674182}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC61C833-ED86-4521-BB8E-CA65D5674182}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC61C833-ED86-4521-BB8E-CA65D5674182}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
