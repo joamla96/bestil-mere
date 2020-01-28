@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using CustomerService.Models;
+using CustomerAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CustomerService.Controllers
+namespace CustomerAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
