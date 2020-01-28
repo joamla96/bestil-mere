@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+using Models;
 using MongoDB.Driver;
 using OrderAPI.Models;
 
@@ -22,8 +24,14 @@ namespace OrderAPI.Services
         public Order Get(string id) =>
             _orders.Find<Order>(order => order.Id == id).FirstOrDefault();
 
-        public Order Create(Order order)
+        public Order Create(CreateOrderDTO createOrderDto)
         {
+            var order = new Order()
+            {
+                CustomerId = createOrderDto.CustomerId,
+                RestaurantId = createOrderDto.RestaurantId,
+                OrderLines = createOrderDto.OrderLines.Select(x => new OrderLine())
+            };
             _orders.InsertOne(order);
             return order;
         }

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using Models;
 using OrderAPI.Models;
 using OrderAPI.Services;
 
@@ -34,11 +35,12 @@ namespace OrderAPI.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Order> Create(Order order)
+        public ActionResult<Order> Create(CreateOrderDTO orderDto)
         {
-            _orderService.Create(order);
+            var order = _orderService.Create(orderDto);
+            return Ok(order);
 
-            return CreatedAtRoute("GetOrder", new { id = order.Id.ToString() }, order);
+            //return CreatedAtRoute("GetOrder", new { id = order.Id }, order);
         }
 
         [HttpPut("{id:length(24)}")]

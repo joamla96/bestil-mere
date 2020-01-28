@@ -9,6 +9,14 @@ services:
     ports:
       - "5000:80"
 
+  orderapi:
+    image: ${DOCKER_REGISTRY}orderapi
+    build:
+      context: OrderAPI/
+      dockerfile: Dockerfile
+    ports:
+      - "5001:80"
+
   rabbitmq:
     image: rabbitmq:3-management
     container_name: rabbitmq

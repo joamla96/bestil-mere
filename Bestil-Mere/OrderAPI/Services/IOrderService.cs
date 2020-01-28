@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Models;
 using OrderAPI.Models;
 
 namespace OrderAPI.Services
@@ -7,7 +8,7 @@ namespace OrderAPI.Services
     {
         List<Order> Get();
         Order Get(string id);
-        Order Create(Order order);
+        Order Create(CreateOrderDTO order);
         void Update(string id, Order orderIn);
         void Remove(Order orderin);
         void Remove(string id);
