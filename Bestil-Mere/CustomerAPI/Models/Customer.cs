@@ -3,7 +3,7 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace CustomerAPI.Models
 {
-    public class Customer
+    public class Customergit 
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
