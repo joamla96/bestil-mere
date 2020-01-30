@@ -2,8 +2,10 @@ using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Models;
+using Models.Order;
 using OrderAPI.Models;
 using OrderAPI.Services;
+using OrderAPI.Utils.Converters;
 
 namespace OrderAPI.Controllers
 {
@@ -23,7 +25,7 @@ namespace OrderAPI.Controllers
             _orderService.Get();
 
         [HttpGet("{id:length(24)}", Name = "GetOrder")]
-        public ActionResult<Order> Get(string id)
+        public IActionResult Get(string id)
         {
             var order = _orderService.Get(id);
 
@@ -32,31 +34,17 @@ namespace OrderAPI.Controllers
                 return NotFound();
             }
 
-            return order;
+            return Ok(OrderConverter.ToOrderDTO(order));
         }
 
         [HttpPost]
-        public ActionResult<Order> Create([FromBody]CreateOrderDTO orderDto)
+        public ActionResult<Order> Create([FromBody]CreateOrderModel orderModel)
         {
-            var order = _orderService.Create(orderDto);
-            return Ok(order);
+            var order = _orderService.Create(orderModel);
+            return Ok(OrderConverter.ToOrderDTO(order));
             //return CreatedAtRoute("GetOrder", new { id = order.Id }, order);
         }
 
-        [HttpPut("{id:length(24)}")]
-        public IActionResult Update(string id, Order orderIn)
-        {
-            var order = _orderService.Get(id);
-
-            if (order == null)
-            {
-                return NotFound();
-            }
-
-            _orderService.Update(id, orderIn);
-
-            return NoContent();
-        }
 
         [HttpDelete("{id:length(24)}")]
         public IActionResult Delete(string id)

@@ -49,7 +49,6 @@ namespace OrderAPI
                 app.UseDeveloperExceptionPage();
             }
 
-
             app.UseRouting();
 
             app.UseAuthorization();

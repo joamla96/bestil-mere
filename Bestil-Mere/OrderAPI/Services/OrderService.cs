@@ -1,9 +1,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using Models;
+using Models.Order;
 using MongoDB.Driver;
 using OrderAPI.Db;
 using OrderAPI.Models;
+using ExtraMealItem = OrderAPI.Models.ExtraMealItem;
+using MealItem = OrderAPI.Models.MealItem;
 
 namespace OrderAPI.Services
 {
@@ -21,13 +24,29 @@ namespace OrderAPI.Services
         public Order Get(string id) =>
             _orders.Find<Order>(order => order.Id == id).FirstOrDefault();
 
-        public Order Create(CreateOrderDTO createOrderDto)
+        public Order Create(CreateOrderModel createOrderModel)
         {
             var order = new Order()
             {
-                CustomerId = createOrderDto.CustomerId,
-                RestaurantId = createOrderDto.RestaurantId,
-                OrderLines = createOrderDto.OrderLines.Select(x => new OrderLine())
+                CustomerId = createOrderModel.CustomerId,
+                RestaurantId = createOrderModel.RestaurantId,
+                OrderLines = createOrderModel.OrderLines.Select(x => new OrderLine()
+                {
+                    Quantity = x.Quantity,
+                    Meal = new Meal()
+                    {
+                        Name = x.Meal.Name,
+                        MealItems = x.Meal.MealItems.Select(m => new MealItem()
+                        {
+                            Name = m.Name
+                        }),
+                        ExtraMealItems = x.Meal.ExtraMealItems.Select(em => new ExtraMealItem()
+                        {
+                            Name = em.Name,
+                            Quantity = em.Quantity
+                        })
+                    }
+                })
             };
             _orders.InsertOne(order);
             return order;
