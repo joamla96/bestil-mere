@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Models;
@@ -35,11 +36,10 @@ namespace OrderAPI.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Order> Create(CreateOrderDTO orderDto)
+        public ActionResult<Order> Create([FromBody]CreateOrderDTO orderDto)
         {
             var order = _orderService.Create(orderDto);
             return Ok(order);
-
             //return CreatedAtRoute("GetOrder", new { id = order.Id }, order);
         }
 

@@ -12,8 +12,8 @@ services:
   orderapi:
     image: ${DOCKER_REGISTRY}orderapi
     build:
-      context: OrderAPI/
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: OrderAPI/Dockerfile
     ports:
       - "5001:80"
 

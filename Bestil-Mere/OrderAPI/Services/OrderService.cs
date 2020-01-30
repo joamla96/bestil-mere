@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Models;
 using MongoDB.Driver;
+using OrderAPI.Db;
 using OrderAPI.Models;
 
 namespace OrderAPI.Services
@@ -9,13 +10,9 @@ namespace OrderAPI.Services
     public class OrderService : IOrderService
     {
         private readonly IMongoCollection<Order> _orders;
-
-        public OrderService(IOrderDatabaseSettings settings)
+        public OrderService(MongoDbManager mgr)
         {
-            var client = new MongoClient(settings.ConnectionString);
-            var database = client.GetDatabase(settings.DatabaseName);
-
-            _orders = database.GetCollection<Order>(settings.OrdersCollectionName);
+            _orders = mgr.Orders;
         }
 
         public List<Order> Get() =>

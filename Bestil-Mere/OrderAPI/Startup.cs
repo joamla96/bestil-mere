@@ -12,7 +12,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MongoDB.Bson.Serialization;
+using OrderAPI.Db;
 using OrderAPI.Models;
+using OrderAPI.Services;
 
 namespace OrderAPI
 {
@@ -34,8 +36,8 @@ namespace OrderAPI
 
             services.AddSingleton<IOrderDatabaseSettings>(sp => 
                 sp.GetRequiredService<IOptions<OrderDatabaseSettings>>().Value);
-            
-            services.AddSingleton<Services.OrderService>();
+            services.AddSingleton<MongoDbManager>();
+            services.AddTransient<IOrderService, OrderService>();
             services.AddControllers();
         }
 
