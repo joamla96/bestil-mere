@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Models;
 using Models.Order;
 using MongoDB.Driver;
@@ -18,13 +19,20 @@ namespace OrderAPI.Services
             _orders = mgr.Orders;
         }
 
-        public List<Order> Get() =>
-            _orders.Find(order => true).ToList();
+        public async Task<List<Order>> Get()
+        {
+            var findAll = await _orders.FindAsync(x => true);
+            return await findAll.ToListAsync(); 
+        }
 
-        public Order Get(string id) =>
-            _orders.Find<Order>(order => order.Id == id).FirstOrDefault();
+        public async Task<Order> Get(string id)
+        {
+            var findAll = await _orders.FindAsync(order => order.Id == id);
+            return await findAll.FirstOrDefaultAsync();
 
-        public Order Create(CreateOrderModel createOrderModel)
+        }
+
+        public async Task<Order> Create(CreateOrderModel createOrderModel)
         {
             var order = new Order()
             {
@@ -48,7 +56,7 @@ namespace OrderAPI.Services
                     }
                 })
             };
-            _orders.InsertOne(order);
+            await _orders.InsertOneAsync(order);
             return order;
         }
 
@@ -59,6 +67,6 @@ namespace OrderAPI.Services
             _orders.DeleteOne(order => order.Id == orderIn.Id);
 
         public void Remove(string id) => 
-            _orders.DeleteOne(order => order.Id == id);
+            _orders.DeleteOneAsync(order => order.Id == id);
     }
 }

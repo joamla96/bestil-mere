@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Models;
 using Models.Order;
 using OrderAPI.Models;
@@ -7,11 +8,9 @@ namespace OrderAPI.Services
 {
     public interface IOrderService
     {
-        List<Order> Get();
-        Order Get(string id);
-        Order Create(CreateOrderModel order);
-        void Update(string id, Order orderIn);
-        void Remove(Order orderin);
+        Task<List<Order>> Get();
+        Task<Order> Get(string id);
+        Task<Order> Create(CreateOrderModel order);
         void Remove(string id);
     }
 }
