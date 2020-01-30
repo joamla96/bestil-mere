@@ -9,6 +9,14 @@ services:
     ports:
       - "5000:80"
 
+  logisticsapi:
+    image: ${DOCKER_REGISTRY}logisticsapi
+    build:
+      context: .
+      dockerfile: LogisticsAPI/Dockerfile
+    ports:
+      - "5002:80"
+
   rabbitmq:
     image: rabbitmq:3-management
     container_name: rabbitmq
