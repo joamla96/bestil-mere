@@ -1,4 +1,4 @@
-namespace CustomerService.Models
+namespace CustomerAPI.Models
 {
     public class CustomerDatabaseSettings : ICustomerDatabaseSettings
     {

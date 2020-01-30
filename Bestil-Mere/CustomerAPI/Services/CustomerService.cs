@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using CustomerService.Models;
+using CustomerAPI.Models;
 using MongoDB.Driver;
 
-namespace CustomerService.Services
+namespace CustomerAPI.Services
 {
     public class CustomerService
     {
