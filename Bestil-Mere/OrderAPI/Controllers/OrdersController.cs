@@ -35,14 +35,14 @@ namespace OrderAPI.Controllers
                 return NotFound();
             }
 
-            return Ok(OrderConverter.ToOrderDTO(await order));
+            return Ok((await order).ToOrderDTO());
         }
 
         [HttpPost]
         public async Task<ActionResult<Order>> Create([FromBody]CreateOrderModel orderModel)
         {
             var order = _orderService.Create(orderModel);
-            return Ok(OrderConverter.ToOrderDTO(await order));
+            return Ok((await order).ToOrderDTO());
             //return CreatedAtRoute("GetOrder", new { id = order.Id }, order);
         }
 

@@ -4,9 +4,9 @@ using OrderAPI.Models;
 
 namespace OrderAPI.Utils.Converters
 {
-    public class OrderConverter
+    public static class OrderConverter
     {
-        public static OrderDTO ToOrderDTO(Order order)
+        public static OrderDTO ToOrderDTO(this Order order)
         {
             return new OrderDTO()
             {

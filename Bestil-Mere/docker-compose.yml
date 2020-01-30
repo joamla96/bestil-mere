@@ -4,7 +4,7 @@ services:
   customerservice:
     image: ${DOCKER_REGISTRY}customerservice
     build:
-      context: CustomerService/
+      context: CustomerAPI/
       dockerfile: Dockerfile
     ports:
       - "5000:80"
