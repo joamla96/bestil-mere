@@ -8,7 +8,7 @@ using MongoDB.Driver;
 
 namespace LogisticsAPI.Services
 {
-    public class LogisticPartnerService
+    public class LogisticPartnerService : ILogisticsPartnerService
     {
         private readonly IMongoCollection<Partner> _partners;
         public LogisticPartnerService(ILogisticsDatabaseSettings settings)
@@ -42,16 +42,6 @@ namespace LogisticsAPI.Services
             await _partners.InsertManyAsync(partners);
             return true;
         }
-
-        public Task<bool> Insert(CreateLogisticsPartnerDTO partnerDto)
-        {
-            var partner = new Partner()
-            {
-                Name = partnerDto.Name
-            };
-            return this.Insert(partner);
-        }
-
         public async Task<bool> Update(string id, Partner partner)
         {
             await _partners.ReplaceOneAsync(x => x.Id == id, partner);
