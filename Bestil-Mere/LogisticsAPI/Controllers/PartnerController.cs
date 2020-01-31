@@ -37,6 +37,9 @@ namespace LogisticsAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateLogisticsPartnerDTO dto)
         {
+            if (!ModelState.IsValid)
+                return BadRequest();
+
             var partner = new Partner()
             {
                 Name = dto.Name
