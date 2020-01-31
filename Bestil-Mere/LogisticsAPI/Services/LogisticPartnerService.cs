@@ -13,12 +13,12 @@ namespace LogisticsAPI.Services
     public class LogisticPartnerService : ILogisticsPartnerService
     {
         private readonly IMongoCollection<Partner> _partners;
-        private readonly IBus Bus;
+        private readonly IBus _bus;
 
         public LogisticPartnerService(MongoDbService database, MessagingService msgService)
         {
             this._partners = database.partners;
-            this.Bus = msgService.Bus;
+            this._bus = msgService.Bus;
         }
 
         public async Task<ICollection<Partner>> Get()
@@ -36,7 +36,7 @@ namespace LogisticsAPI.Services
         public async Task<bool> Insert(Partner partner)
         {
             await _partners.InsertOneAsync(partner);
-            await Bus.PublishAsync(new NewPartner() {Id = partner.Id});
+            await _bus.PublishAsync(new NewPartner() {Id = partner.Id});
             
             return true;
         }
@@ -46,21 +46,21 @@ namespace LogisticsAPI.Services
             await _partners.InsertManyAsync(partners);
             foreach (var item in partners)
             {
-                await Bus.PublishAsync(new NewPartner() {Id = item.Id});
+                await _bus.PublishAsync(new NewPartner() {Id = item.Id});
             }
             return true;
         }
 
         public async Task<bool> Update(string id, Partner partner)
         {
-            await Bus.PublishAsync(new UpdatedPartner() {Id = id});
+            await _bus.PublishAsync(new UpdatedPartner() {Id = id});
             await _partners.ReplaceOneAsync(x => x.Id == id, partner);
             return true;
         }
 
         public async Task<bool> Remove(string id)
         {
-            await Bus.PublishAsync(new DeletedPartner() {Id = id});
+            await _bus.PublishAsync(new DeletedPartner() {Id = id});
             await _partners.DeleteOneAsync(x => x.Id == id);
             return true;
         }
