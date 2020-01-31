@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace Models
 {
-    public class MealDTO
+    public class CreateMealModel
     {
         public string Name { get; set; }
         public IEnumerable<MealItemDTO> MealItems { get; set; }

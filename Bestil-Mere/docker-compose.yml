@@ -4,10 +4,18 @@ services:
   customerservice:
     image: ${DOCKER_REGISTRY}customerservice
     build:
-      context: CustomerService/
+      context: CustomerAPI/
       dockerfile: Dockerfile
     ports:
       - "5000:80"
+
+  orderapi:
+    image: ${DOCKER_REGISTRY}orderapi
+    build:
+      context: .
+      dockerfile: OrderAPI/Dockerfile
+    ports:
+      - "5001:80"
 
   logisticsapi:
     image: ${DOCKER_REGISTRY}logisticsapi
