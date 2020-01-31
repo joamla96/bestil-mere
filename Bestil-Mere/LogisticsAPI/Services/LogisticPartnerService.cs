@@ -11,12 +11,9 @@ namespace LogisticsAPI.Services
     public class LogisticPartnerService : ILogisticsPartnerService
     {
         private readonly IMongoCollection<Partner> _partners;
-        public LogisticPartnerService(ILogisticsDatabaseSettings settings)
+        public LogisticPartnerService(MongoDbService database)
         {
-            var client = new MongoClient(settings.ConnectionString);
-            var database = client.GetDatabase(settings.DatabaseName);
-
-            _partners = database.GetCollection<Partner>(settings.PartnerCollectionName);
+            this._partners = database.partners;
         }
 
         public async Task<ICollection<Partner>> Get()

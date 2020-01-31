@@ -30,7 +30,9 @@ namespace LogisticsAPI
             services.Configure<LogisticsDatabaseSettings>(
                 Configuration.GetSection(nameof(LogisticsDatabaseSettings)));
 
-            services.AddSingleton<ILogisticsPartnerService, LogisticPartnerService>();
+
+            services.AddSingleton<MongoDbService>();
+            services.AddTransient<ILogisticsPartnerService, LogisticPartnerService>();
             
             
             services.AddControllers();
