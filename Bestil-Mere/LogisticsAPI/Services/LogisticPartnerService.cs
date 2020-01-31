@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EasyNetQ;
 using LogisticsAPI.Models;
 using Models;
+using Models.Messages.Logistics;
 using MongoDB.Driver;
 
 namespace LogisticsAPI.Services
@@ -11,9 +13,12 @@ namespace LogisticsAPI.Services
     public class LogisticPartnerService : ILogisticsPartnerService
     {
         private readonly IMongoCollection<Partner> _partners;
-        public LogisticPartnerService(MongoDbService database)
+        private readonly IBus Bus;
+
+        public LogisticPartnerService(MongoDbService database, MessagingService msgService)
         {
             this._partners = database.partners;
+            this.Bus = msgService.Bus;
         }
 
         public async Task<ICollection<Partner>> Get()
@@ -31,22 +36,32 @@ namespace LogisticsAPI.Services
         public async Task<bool> Insert(Partner partner)
         {
             await _partners.InsertOneAsync(partner);
+            await Bus.PublishAsync(new NewPartner() {Id = partner.Id});
+            
             return true;
         }
 
         public async Task<bool> Insert(IEnumerable<Partner> partners)
         {
+            foreach (var item in partners)
+            {
+                await Bus.PublishAsync(new NewPartner() {Partner = item.ToDto()});
+            }
+
             await _partners.InsertManyAsync(partners);
             return true;
         }
+
         public async Task<bool> Update(string id, Partner partner)
         {
+            await Bus.PublishAsync(new UpdatedPartner() {Id = id});
             await _partners.ReplaceOneAsync(x => x.Id == id, partner);
             return true;
         }
 
         public async Task<bool> Remove(string id)
         {
+            await Bus.PublishAsync(new DeletedPartner() {Id = id});
             await _partners.DeleteOneAsync(x => x.Id == id);
             return true;
         }
