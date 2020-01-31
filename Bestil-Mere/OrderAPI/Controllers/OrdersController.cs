@@ -22,7 +22,7 @@ namespace OrderAPI.Controllers
         }
         
         [HttpGet]
-        public async Task<ActionResult<List<Order>>> Get() =>
+        public async Task<ActionResult<IEnumerable<Order>>> Get() =>
             await _orderService.Get();
 
         [HttpGet("{id:length(24)}", Name = "GetOrder")]
@@ -41,6 +41,10 @@ namespace OrderAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Order>> Create([FromBody]CreateOrderModel orderModel)
         {
+            if (!ModelState.IsValid || orderModel == null)
+            {
+                return BadRequest(ModelState);
+            }
             var order = _orderService.Create(orderModel);
             return Ok((await order).ToOrderDTO());
             //return CreatedAtRoute("GetOrder", new { id = order.Id }, order);
