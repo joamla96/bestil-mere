@@ -43,12 +43,11 @@ namespace LogisticsAPI.Services
 
         public async Task<bool> Insert(IEnumerable<Partner> partners)
         {
+            await _partners.InsertManyAsync(partners);
             foreach (var item in partners)
             {
-                await Bus.PublishAsync(new NewPartner() {Partner = item.ToDto()});
+                await Bus.PublishAsync(new NewPartner() {Id = item.Id});
             }
-
-            await _partners.InsertManyAsync(partners);
             return true;
         }
 
