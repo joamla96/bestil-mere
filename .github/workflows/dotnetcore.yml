@@ -6,7 +6,7 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-
+    
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET Core
@@ -14,6 +14,8 @@ jobs:
       with:
         dotnet-version: 2.2.108
     - name: Build with dotnet
+      working-directory: ./Bestil-Mere/
       run: dotnet build --configuration Release
     - name: Tests with dotnet
+      working-directory: ./Bestil-Mere/
       run: dotnet test
