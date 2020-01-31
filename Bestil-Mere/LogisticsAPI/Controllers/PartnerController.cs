@@ -37,7 +37,7 @@ namespace LogisticsAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateLogisticsPartnerDTO dto)
         {
-            if (!ModelState.IsValid)
+            if (dto == null || !ModelState.IsValid)
                 return BadRequest();
 
             var partner = new Partner()
