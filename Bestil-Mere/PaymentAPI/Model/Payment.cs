@@ -8,6 +8,7 @@ namespace PaymentAPI.Model
     {
         [BsonId]
         public ObjectId ObjectId { get; set; }
+        public PaymentStatus Status { get; set; }
         
 
         public string Id => ObjectId.ToString();
