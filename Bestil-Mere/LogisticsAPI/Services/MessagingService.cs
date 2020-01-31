@@ -7,6 +7,7 @@ namespace LogisticsAPI.Services
         public readonly IBus Bus;
         public MessagingService()
         {
+            // Todo: Pull this config from the appsettings.json
             this.Bus = RabbitHutch.CreateBus("host=localhost");
         }
     }
