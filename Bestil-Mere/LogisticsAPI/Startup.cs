@@ -32,6 +32,8 @@ namespace LogisticsAPI
 
 
             services.AddSingleton<MongoDbService>();
+            services.AddSingleton<MessagingService>();
+            
             services.AddTransient<ILogisticsPartnerService, LogisticPartnerService>();
             
             
