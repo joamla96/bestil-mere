@@ -1,14 +1,14 @@
 using EasyNetQ;
+using LogisticsAPI.Models;
 
 namespace LogisticsAPI.Services
 {
     public class MessagingService
     {
         public readonly IBus Bus;
-        public MessagingService()
+        public MessagingService(MessagingSettings settings)
         {
-            // Todo: Pull this config from the appsettings.json
-            this.Bus = RabbitHutch.CreateBus("host=localhost");
+            this.Bus = RabbitHutch.CreateBus(settings.ConnectionString);
         }
     }
 }

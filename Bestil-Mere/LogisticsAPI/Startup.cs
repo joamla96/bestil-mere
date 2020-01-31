@@ -29,6 +29,7 @@ namespace LogisticsAPI
         {
             services.Configure<LogisticsDatabaseSettings>(
                 Configuration.GetSection(nameof(LogisticsDatabaseSettings)));
+            services.Configure<MessagingSettings>(Configuration.GetSection("Messaging"));
 
 
             services.AddSingleton<MongoDbService>();
