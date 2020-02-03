@@ -1,6 +1,6 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using RestaurantAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Models.Restaurant;
@@ -20,11 +20,11 @@ namespace RestaurantAPI.Controllers
         }
         
         [HttpGet]
-        public async Task<ActionResult<List<Restaurant>>> Get() =>
+        public async Task<ActionResult<List<RestaurantDTO>>> Get() =>
             await _restaurantService.Get();
 
         [HttpGet("{id:length(24)}", Name = "GetRestaurant")]
-        public async Task<ActionResult<Restaurant>> Get(string id)
+        public async Task<ActionResult<RestaurantDTO>> Get(string id)
         {
             var restaurant = _restaurantService.Get(id);
 
@@ -39,7 +39,7 @@ namespace RestaurantAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<RestaurantDTO>> Create([FromBody]CreateRestaurantModel crm)
         {
-            if (ModelState.IsValid || crm == null)
+            if (!ModelState.IsValid || crm == null)
                 return BadRequest(ModelState);
             
             var restaurant = _restaurantService.Create(crm);
@@ -47,7 +47,7 @@ namespace RestaurantAPI.Controllers
             //return CreatedAtRoute("GetRestaurant", new { id = restaurant.Id.ToString() }, restaurant);
         }
 
-        [HttpPut("{id:length(24)}")]
+        [HttpPut]
         public IActionResult Update([FromBody]UpdateRestaurantModel restaurantIn)
         {
             var restaurant = _restaurantService.Get(restaurantIn.Id);

@@ -1,10 +1,12 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Models;
 using Models.Restaurant;
 using RestaurantAPI.Models;
 using MongoDB.Driver;
 using RestaurantAPI.Db;
+using RestaurantAPI.Utils.Converters;
 
 namespace RestaurantAPI.Services
 {
@@ -17,16 +19,18 @@ namespace RestaurantAPI.Services
             _restaurants = mgr.Restaurants;
         }
 
-        public async Task<List<Restaurant>> Get()
+        public async Task<List<RestaurantDTO>> Get()
         {
             var findAll = await _restaurants.FindAsync(x => true);
-            return await findAll.ToListAsync(); 
+            var restaurants = await findAll.ToListAsync(); 
+            return restaurants.Select(r => r.ToRestaurantDTO()).ToList();
         }
 
-        public async Task<Restaurant> Get(string id)
+        public async Task<RestaurantDTO> Get(string id)
         {
             var findAll = await _restaurants.FindAsync(restaurant => restaurant.Id == id);
-            return await findAll.FirstOrDefaultAsync();
+            var restaurant = await findAll.FirstOrDefaultAsync();
+            return restaurant.ToRestaurantDTO();
         }
 
         public async Task<RestaurantDTO> Create(CreateRestaurantModel crm)
@@ -43,16 +47,15 @@ namespace RestaurantAPI.Services
                 Country = crm.Country
             };
             await _restaurants.InsertOneAsync(restaurant);
-            return restaurant;
+            return restaurant.ToRestaurantDTO();
         }
 
-        public void Update(string id, Restaurant restaurantIn) =>
-            _restaurants.ReplaceOne(restaurant => restaurant.Id.ToString() == id, restaurantIn);
-
-        public void Remove(Restaurant restaurantIn) =>
-            _restaurants.DeleteOne(restaurant => restaurant.Id == restaurantIn.Id);
+        public void Update(UpdateRestaurantModel restaurantIn) =>
+            _restaurants.ReplaceOne(
+                restaurant => restaurant.Id == restaurantIn.Id,
+                restaurantIn.ToRestaurant());
 
         public void Remove(string id) => 
-            _restaurants.DeleteOne(restaurant => restaurant.Id.ToString() == id);
+            _restaurants.DeleteOne(restaurant => restaurant.Id == id);
     }
 }

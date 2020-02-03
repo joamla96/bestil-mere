@@ -1,8 +1,7 @@
-using System.Linq;
 using Models;
 using RestaurantAPI.Models;
 
-namespace OrderAPI.Utils.Converters
+namespace RestaurantAPI.Utils.Converters
 {
     public static class OrderConverter
     {
@@ -10,26 +9,30 @@ namespace OrderAPI.Utils.Converters
         {
             return new RestaurantDTO()
             {
-                Id = order.Id,
-                CustomerId = order.CustomerId,
-                RestaurantId = order.RestaurantId,
-                OrderLines = order.OrderLines.Select(x => new OrderLineDTO()
-                {
-                    Meal = new MealDTO()
-                    {
-                        Name = x.Meal.Name,
-                        MealItems = x.Meal.MealItems.Select(mi => new MealItemDTO()
-                        {
-                            Name = mi.Name
-                        }),
-                        ExtraMealItems = x.Meal.ExtraMealItems.Select(emi => new ExtraMealItemDTO()
-                        {
-                            Name = emi.Name,
-                            Quantity = emi.Quantity
-                        })
-                    },
-                    Quantity = x.Quantity
-                })
+                Id = restaurant.Id,
+                Email = restaurant.Email,
+                RestaurantName = restaurant.RestaurantName,
+                RestaurantType = restaurant.RestaurantType,
+                Cvr = restaurant.Cvr,
+                Address = restaurant.Address,
+                PostalCode = restaurant.PostalCode,
+                City = restaurant.City,
+                Country = restaurant.Country
+            };
+        }
+        
+        public static Restaurant ToRestaurant(this UpdateRestaurantModel restaurant)
+        {
+            return new Restaurant()
+            {
+                Email = restaurant.Email,
+                RestaurantName = restaurant.RestaurantName,
+                RestaurantType = restaurant.RestaurantType,
+                Cvr = restaurant.Cvr,
+                Address = restaurant.Address,
+                PostalCode = restaurant.PostalCode,
+                City = restaurant.City,
+                Country = restaurant.Country
             };
         }
     }
