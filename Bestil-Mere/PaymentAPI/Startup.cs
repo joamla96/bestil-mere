@@ -10,7 +10,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using PaymentAPI.Db;
+using PaymentAPI.Extensions;
+using PaymentAPI.Messaging;
 using PaymentAPI.Services;
 
 namespace PaymentAPI
@@ -27,10 +30,21 @@ namespace PaymentAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Configure database settings
             services.Configure<PaymentDatabaseSettings>(
                 Configuration.GetSection(nameof(PaymentDatabaseSettings)));
+            services.AddSingleton<IPaymentDatabaseSettings>(sp => 
+                sp.GetRequiredService<IOptions<PaymentDatabaseSettings>>().Value);
 
+            // Configure messaging settings
+            services.Configure<MessagingSettings>(
+                Configuration.GetSection(nameof(MessagingSettings)));
+            services.AddSingleton<IMessagingSettings>(sp => 
+                sp.GetRequiredService<IOptions<MessagingSettings>>().Value);
+
+            // Add classes to DI container
             services.AddSingleton<MongoDbManager>();
+            services.AddSingleton<MessageListener>();
             services.AddTransient<IPaymentService, PaymentService>();
             
             services.AddControllers();
@@ -44,7 +58,7 @@ namespace PaymentAPI
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            app.UseMessageListener(); // Listens for messages for payment requests
 
             app.UseRouting();
 
