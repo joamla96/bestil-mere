@@ -37,8 +37,8 @@ namespace RestaurantAPI
             services.AddSingleton<IRestaurantDatabaseSettings>(sp => 
                 sp.GetRequiredService<IOptions<RestaurantDatabaseSettings>>().Value);
             services.AddSingleton<MongoDbManager>();
-            services.AddSingleton<IRestaurantService, RestaurantService>();
-            services.AddSingleton<IMenuService, MenuService>();
+            services.AddTransient<IRestaurantService, RestaurantService>();
+            services.AddTransient<IMenuService, MenuService>();
             
             services.AddControllers();
         }

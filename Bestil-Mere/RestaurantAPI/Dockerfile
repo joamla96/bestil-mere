@@ -4,6 +4,7 @@ WORKDIR /source
 
 # copy csproj and restore as distinct layers
 COPY RestaurantAPI/RestaurantAPI.csproj RestaurantAPI/
+COPY Models/Models.csproj Models/
 RUN dotnet restore RestaurantAPI/RestaurantAPI.csproj
 
 # copy everything else and build app
