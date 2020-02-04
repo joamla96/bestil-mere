@@ -1,6 +1,15 @@
 version: '3.4'
 
 services:
+  frontend:
+    image: ${DOCKER_REGISTRY}frontend
+    build:
+      context: .
+      dockerfile: Frontend/Dockerfile
+    ports:
+      - "443:443"
+      - "80:80"
+
   customerservice:
     image: ${DOCKER_REGISTRY}customerservice
     build:
