@@ -3,7 +3,7 @@ using RestaurantAPI.Models;
 
 namespace RestaurantAPI.Utils.Converters
 {
-    public static class OrderConverter
+    public static class RestaurantConverter
     {
         public static RestaurantDTO ToRestaurantDTO(this Restaurant restaurant)
         {

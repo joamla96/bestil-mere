@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MenuAPI.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -37,6 +38,7 @@ namespace RestaurantAPI
                 sp.GetRequiredService<IOptions<RestaurantDatabaseSettings>>().Value);
             services.AddSingleton<MongoDbManager>();
             services.AddSingleton<IRestaurantService, RestaurantService>();
+            services.AddSingleton<IMenuService, MenuService>();
             
             services.AddControllers();
         }
