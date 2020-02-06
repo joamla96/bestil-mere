@@ -5,7 +5,7 @@ namespace LogisticsAPI.Models
     /// Lots of these fields may not be used for most addresses
     /// but since we're trying to support international stuff
     /// we should handle this in a variety of ways.
-    public class Address
+    public class Location
     {
         public string StreetName { get; set; }
         public string HouseNo { get; set; }
