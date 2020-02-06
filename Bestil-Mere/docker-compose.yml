@@ -31,6 +31,7 @@ services:
     hostname: rabbitmq
     ports:
      - "5100:15672"
+     - "5672:5672"
     volumes:
      - $PWD/storage/rabbitmq:/var/lib/rabbitmq
     environment:

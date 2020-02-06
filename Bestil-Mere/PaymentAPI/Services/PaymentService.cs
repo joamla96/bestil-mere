@@ -22,6 +22,7 @@ namespace PaymentAPI.Services
                 Status = PaymentStatus.Created
             };
             await _dbManager.Payments.InsertOneAsync(payment);
+            AuthorizePayment(payment);
         }
 
         private void AuthorizePayment(Payment p)
