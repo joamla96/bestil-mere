@@ -1,13 +1,22 @@
 version: '3.4'
 
 services:
+  frontend:
+    image: ${DOCKER_REGISTRY}frontend
+    build:
+      context: .
+      dockerfile: Frontend/Dockerfile
+    ports:
+      - "443:443"
+      - "80:80"
+
   customerservice:
     image: ${DOCKER_REGISTRY}customerservice
     build:
       context: CustomerAPI/
       dockerfile: Dockerfile
     ports:
-      - "5000:80"
+      - "53000:80"
 
   orderapi:
     image: ${DOCKER_REGISTRY}orderapi
@@ -15,7 +24,7 @@ services:
       context: .
       dockerfile: OrderAPI/Dockerfile
     ports:
-      - "5001:80"
+      - "53001:80"
 
   logisticsapi:
     image: ${DOCKER_REGISTRY}logisticsapi
@@ -23,26 +32,34 @@ services:
       context: .
       dockerfile: LogisticsAPI/Dockerfile
     ports:
-      - "5002:80"
+      - "53002:80"
+
+  restaurantapi:
+    image: ${DOCKER_REGISTRY}restaurantapi
+    build:
+      context: .
+      dockerfile: RestaurantAPI/Dockerfile
+    ports:
+      - "5003:80"
 
   rabbitmq:
     image: rabbitmq:3-management
     container_name: rabbitmq
     hostname: rabbitmq
     ports:
-     - "5100:15672"
+     - "53100:15672"
      - "5672:5672"
     volumes:
-     - $PWD/storage/rabbitmq:/var/lib/rabbitmq
+     - rabbitmq:/var/lib/rabbitmq
     environment:
-#     - RABBITMQ_ERLANG_COOKIE=cluster_cookie
+     - RABBITMQ_ERLANG_COOKIE=cluster_cookie
      - RABBITMQ_DEFAULT_USER=admin
      - RABBITMQ_DEFAULT_PASS=admin  
 
   mongodb:
     image: mongo:latest
     ports:
-     - "5200:27017"
+     - "53200:27017"
     volumes:
      - db-data:/data/db
      - mongo-config:/data/configdb
@@ -58,3 +75,4 @@ services:
 volumes:
   db-data:
   mongo-config:
+  rabbitmq:

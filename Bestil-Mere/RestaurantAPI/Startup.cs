@@ -11,7 +11,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using RestaurantAPI.Db;
 using RestaurantAPI.Models;
+using RestaurantAPI.Services;
 
 namespace RestaurantAPI
 {
@@ -33,8 +35,9 @@ namespace RestaurantAPI
 
             services.AddSingleton<IRestaurantDatabaseSettings>(sp => 
                 sp.GetRequiredService<IOptions<RestaurantDatabaseSettings>>().Value);
-            
-            services.AddSingleton<Services.RestaurantService>();
+            services.AddSingleton<MongoDbManager>();
+            services.AddTransient<IRestaurantService, RestaurantService>();
+            services.AddTransient<IMenuService, MenuService>();
             
             services.AddControllers();
         }

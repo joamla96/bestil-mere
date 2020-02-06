@@ -1,3 +1,4 @@
+using System;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
@@ -24,5 +25,7 @@ namespace RestaurantAPI.Models
         public string City { get; set; }
         
         public string Country { get; set; }
+        
+        public string MenuId { get; set; }
     }
 }
