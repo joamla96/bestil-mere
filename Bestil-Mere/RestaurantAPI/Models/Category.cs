@@ -7,13 +7,10 @@ namespace RestaurantAPI.Models
 {
     public class Category
     {
-        [BsonId]
-        public ObjectId ObjectId { get; set; }
-        
         public string Name { get; set; }
         
-        public IEnumerable<ExtraMealItem> Extras { get; set; }
-        public string Id => ObjectId.ToString();
-        public DateTime Created => ObjectId.CreationTime;
+        public IEnumerable<Meal> Meals { get; set; }
+        
+        public IEnumerable<ExtraMealItem> ExtraMealItems { get; set; }
     }
 }

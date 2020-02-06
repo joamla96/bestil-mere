@@ -1,14 +1,14 @@
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Models.Restaurant;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using RestaurantAPI.Db;
 using RestaurantAPI.Models;
-using RestaurantAPI.Services;
 using RestaurantAPI.Utils.Converters;
 
-namespace MenuAPI.Services
+namespace RestaurantAPI.Services
 {
     public class MenuService : IMenuService
     {
@@ -18,13 +18,6 @@ namespace MenuAPI.Services
         {
             _menus = mgr.Menus;
         }
-        
-        public async Task<List<MenuDTO>> Get()
-        {
-            var findAll = await _menus.FindAsync(x => true);
-            var menus = await findAll.ToListAsync(); 
-            return menus.Select(r => r.ToMenuDTO()).ToList();
-        }
 
         public async Task<MenuDTO> Get(string id)
         {
@@ -32,23 +25,22 @@ namespace MenuAPI.Services
             var menu = await findAll.FirstOrDefaultAsync();
             return menu.ToMenuDTO();
         }
-/*
-        public async Task<MenuDTO> Create(CreateMenuModel crm)
+
+        public async Task<Menu> Create()
         {
             var menu = new Menu()
             {
-                Email = crm.Email,
+                Categories = new List<Category>()
             };
             await _menus.InsertOneAsync(menu);
-            return menu.ToMenuDTO();
+            return menu;
         }
 
-        public void Update(UpdateMenuModel menuIn) =>
-            _menus.ReplaceOne(
-                menu => menu.Id == menuIn.Id,
-                menuIn.ToMenu());
-*/
-        public void Remove(string id) => 
-            _menus.DeleteOne(menu => menu.Id == id);
+        public async void Update(UpdateMenuModel menuIn) =>
+            await _menus.ReplaceOneAsync(menu => menu.Id == menuIn.Id, menuIn.ToMenu());
+        
+
+        public async void Remove(string id) => 
+            await _menus.DeleteOneAsync(menu => menu.Id == id);
     }
 }
