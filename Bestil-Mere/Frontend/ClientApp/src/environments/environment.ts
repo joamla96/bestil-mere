@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   api: {
-    logistics: "http://logisticsapi/api/"
+    logistics: "http://localhost:5002/api/"
   }
 };
 
