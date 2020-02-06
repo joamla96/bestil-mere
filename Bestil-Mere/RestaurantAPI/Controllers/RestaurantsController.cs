@@ -50,6 +50,9 @@ namespace RestaurantAPI.Controllers
         [HttpPut]
         public IActionResult Update([FromBody]UpdateRestaurantModel restaurantIn)
         {
+            if (!ModelState.IsValid || restaurantIn == null)
+                return BadRequest(ModelState);
+            
             var restaurant = _restaurantService.Get(restaurantIn.Id);
 
             if (restaurant == null)

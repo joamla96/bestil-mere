@@ -17,7 +17,8 @@ namespace RestaurantAPI.Utils.Converters
                 Address = restaurant.Address,
                 PostalCode = restaurant.PostalCode,
                 City = restaurant.City,
-                Country = restaurant.Country
+                Country = restaurant.Country,
+                MenuId = restaurant.MenuId
             };
         }
         
@@ -25,6 +26,7 @@ namespace RestaurantAPI.Utils.Converters
         {
             return new Restaurant()
             {
+                Id = restaurant.Id,
                 Email = restaurant.Email,
                 RestaurantName = restaurant.RestaurantName,
                 RestaurantType = restaurant.RestaurantType,
