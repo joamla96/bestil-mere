@@ -1,38 +1,71 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Models.Messages.Payment;
 using Models.Payment;
+using MongoDB.Driver;
 using PaymentAPI.Db;
+using PaymentAPI.Messaging;
 using PaymentAPI.Model;
 
 namespace PaymentAPI.Services
 {
     public class PaymentService : IPaymentService
     {
-        private readonly MongoDbManager _dbManager;
-        public PaymentService(MongoDbManager dbManager)
+        private readonly IMongoCollection<Payment> _payments;
+        private readonly MessagePublisher _publisher;
+        public PaymentService(MongoDbManager dbManager, MessagePublisher publisher)
         {
-            _dbManager = dbManager;
+            _payments = dbManager.Payments;
+            _publisher = publisher;
         }
+        
         public async void CreatePayment(CreatePaymentModel model)
         {
             Console.WriteLine($"Creating payment..");
             var payment = new Payment()
             {
-                Status = PaymentStatus.Created
+                Status = PaymentStatus.Created,
+                OrderId = model.OrderId
             };
-            await _dbManager.Payments.InsertOneAsync(payment);
+            await _payments.InsertOneAsync(payment);
+            
             AuthorizePayment(payment);
         }
 
-        private void AuthorizePayment(Payment p)
+        private async void AuthorizePayment(Payment p)
         {
-            Console.WriteLine($"Authorizing payment...");
             p.Status = PaymentStatus.Authorizing;
+            await Update(p);
+            
             Thread.Sleep(2000);
-            Console.WriteLine($"Authorization accepted..");
+            
             p.Status = PaymentStatus.Accepted;
-            // Emit to order-api that the payment is OK and continue proceeding the order
+            await Update(p);
+            
+            _publisher.PublishNewPaymentStatus(new NewPaymentStatus()
+            {
+                Status = p.Status.Parse(),
+                OrderId = p.OrderId,
+                PaymentId = p.Id
+            });
+        }
+        
+        
+
+
+        public async Task<Payment> Get(string id)
+        {
+            var findAll = await _payments.FindAsync(order => order.Id == id);
+            return await findAll.FirstOrDefaultAsync();
+        }
+
+        public async Task Update(Payment p)
+        {
+            var up = Builders<Payment>.Update
+                .Set(pp => pp.Status, p.Status);
+
+            await _payments.UpdateOneAsync(u => u.Id == p.Id, up);
         }
 
         private void UpdatePayment(Payment p)

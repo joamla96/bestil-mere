@@ -1,5 +1,6 @@
 using System;
 using MongoDB.Bson;
+using MongoDB.Bson.IO;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace PaymentAPI.Model
@@ -7,11 +8,10 @@ namespace PaymentAPI.Model
     public class Payment
     {
         [BsonId]
-        public ObjectId ObjectId { get; set; }
-        public PaymentStatus Status { get; set; }
-        
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; }
 
-        public string Id => ObjectId.ToString();
-        public DateTime Created => ObjectId.CreationTime;
+        public string OrderId { get; set; }
+        public PaymentStatus Status { get; set; }
     }
 }

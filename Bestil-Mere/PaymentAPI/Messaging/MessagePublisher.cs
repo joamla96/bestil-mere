@@ -1,4 +1,5 @@
 using EasyNetQ;
+using Models.Messages.Payment;
 using PaymentAPI.Model;
 
 namespace PaymentAPI.Messaging
@@ -12,9 +13,10 @@ namespace PaymentAPI.Messaging
             _bus = RabbitHutch.CreateBus(messagingSettings.ConnectionString);
         }
 
-        public void PaymentStatusChanged(Payment p)
+        public async void PublishNewPaymentStatus(NewPaymentStatus nps)
         {
-            // Emit whenever the status changing on the Payment
+            await _bus.PublishAsync(nps);
         }
+
     }
 }
