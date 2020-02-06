@@ -12,6 +12,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerAPI", "CustomerAPI\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogisticsAPI", "LogisticsAPI\LogisticsAPI.csproj", "{9B5BD913-4770-4469-BFDC-2C3943F964A3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Frontend", "Frontend\Frontend.csproj", "{6A4F8044-F371-42A2-9056-74EA3A108AFC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,5 +44,9 @@ Global
 		{F04A9741-E09B-450D-9C7A-B85FB9DC0904}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F04A9741-E09B-450D-9C7A-B85FB9DC0904}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F04A9741-E09B-450D-9C7A-B85FB9DC0904}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A4F8044-F371-42A2-9056-74EA3A108AFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A4F8044-F371-42A2-9056-74EA3A108AFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A4F8044-F371-42A2-9056-74EA3A108AFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A4F8044-F371-42A2-9056-74EA3A108AFC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
