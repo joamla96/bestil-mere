@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Models;
 using Models.Restaurant;
-using MongoDB.Bson;
 using RestaurantAPI.Models;
 using MongoDB.Driver;
 using RestaurantAPI.Db;
@@ -26,14 +25,14 @@ namespace RestaurantAPI.Services
         {
             var findAll = await _restaurants.FindAsync(x => true);
             var restaurants = await findAll.ToListAsync(); 
-            return restaurants.Select(r => r.ToRestaurantDTO()).ToList();
+            return restaurants?.Select(r => r.ToRestaurantDTO()).ToList();
         }
 
         public async Task<RestaurantDTO> Get(string id)
         {
             var findAll = await _restaurants.FindAsync(r => r.Id == id);
             var restaurant = await findAll.FirstOrDefaultAsync();
-            return restaurant.ToRestaurantDTO();
+            return restaurant?.ToRestaurantDTO();
         }
 
         public async Task<RestaurantDTO> Create(CreateRestaurantModel crm)
@@ -54,12 +53,7 @@ namespace RestaurantAPI.Services
             await _restaurants.InsertOneAsync(restaurant);
             return restaurant.ToRestaurantDTO();
         }
-/*
-        public void Update(UpdateRestaurantModel restaurantIn) =>
-            _restaurants.ReplaceOne(
-                restaurant => restaurant.Id == restaurantIn.Id,
-                restaurantIn.ToRestaurant());
-*/
+        
         public void Update(UpdateRestaurantModel restaurantIn)
         {
             var update = Builders<Restaurant>.Update

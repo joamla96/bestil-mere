@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Models.Restaurant;
-using MongoDB.Bson;
 using MongoDB.Driver;
 using RestaurantAPI.Db;
 using RestaurantAPI.Models;
@@ -23,7 +22,7 @@ namespace RestaurantAPI.Services
         {
             var findAll = await _menus.FindAsync(menu => menu.Id == id);
             var menu = await findAll.FirstOrDefaultAsync();
-            return menu.ToMenuDTO();
+            return menu?.ToMenuDTO();
         }
 
         public async Task<Menu> Create()
