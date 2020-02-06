@@ -7,7 +7,8 @@ namespace RestaurantAPI.Models
     public class Restaurant
     {
         [BsonId]
-        public ObjectId ObjectId { get; set; }
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string Id { get; set; }
 
         public string Email { get; set; }
 
@@ -25,7 +26,6 @@ namespace RestaurantAPI.Models
         
         public string Country { get; set; }
         
-        public string Id => ObjectId.ToString();
-        public DateTime Created => ObjectId.CreationTime;
+        public string MenuId { get; set; }
     }
 }
