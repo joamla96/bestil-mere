@@ -1,13 +1,8 @@
-using System;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
-
-namespace RestaurantAPI.Models
+namespace Models
 {
-    public class Restaurant
+    public class RestaurantDTO
     {
-        [BsonId]
-        public ObjectId ObjectId { get; set; }
+        public string Id { get; set; }
 
         public string Email { get; set; }
 
@@ -25,7 +20,5 @@ namespace RestaurantAPI.Models
         
         public string Country { get; set; }
         
-        public string Id => ObjectId.ToString();
-        public DateTime Created => ObjectId.CreationTime;
     }
 }

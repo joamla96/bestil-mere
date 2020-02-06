@@ -34,6 +34,14 @@ services:
     ports:
       - "53002:80"
 
+  restaurantapi:
+    image: ${DOCKER_REGISTRY}restaurantapi
+    build:
+      context: .
+      dockerfile: RestaurantAPI/Dockerfile
+    ports:
+      - "5003:80"
+
   rabbitmq:
     image: rabbitmq:3-management
     container_name: rabbitmq

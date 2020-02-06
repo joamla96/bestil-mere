@@ -1,31 +1,31 @@
-using System;
-using MongoDB.Bson;
-using MongoDB.Bson.Serialization.Attributes;
+using System.ComponentModel.DataAnnotations;
 
-namespace RestaurantAPI.Models
+namespace Models.Restaurant
 {
-    public class Restaurant
+    public class CreateRestaurantModel
     {
-        [BsonId]
-        public ObjectId ObjectId { get; set; }
-
+        [Required]
         public string Email { get; set; }
 
+        [Required]
         public string RestaurantName { get; set; }
        
+        [Required]
         public string RestaurantType { get; set; }
         
+        [Required]
         public string Cvr { get; set; }
         
+        [Required]
         public string Address { get; set; }
 
+        [Required]
         public string PostalCode { get; set; }
 
+        [Required]
         public string City { get; set; }
         
-        public string Country { get; set; }
-        
-        public string Id => ObjectId.ToString();
-        public DateTime Created => ObjectId.CreationTime;
+        [Required]
+        public string Country { get; set; } 
     }
 }
