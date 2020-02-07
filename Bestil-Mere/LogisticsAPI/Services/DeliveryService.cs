@@ -15,7 +15,8 @@ namespace LogisticsAPI.Services
 
         public DeliveryService(MessagingService messagingService, MongoDbService mongoDbService)
         {
-
+            this._bus = messagingService.Bus;
+            this._deliveries = mongoDbService.Deliveries;
         }
     }
 }
