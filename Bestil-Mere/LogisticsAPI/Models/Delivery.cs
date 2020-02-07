@@ -9,5 +9,6 @@ namespace LogisticsAPI.Models
         public decimal Cost { get; set; }
         public DateTime EstimatedDelivery { get; set; }
         public bool Confirmed { get; set; }
+        public bool Delivered { get; set; }
     }
 }
