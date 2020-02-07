@@ -8,5 +8,6 @@ namespace LogisticsAPI.Models
         public Location LocationTo { get; set; }
         public decimal Cost { get; set; }
         public DateTime EstimatedDelivery { get; set; }
+        public bool Confirmed { get; set; }
     }
 }
