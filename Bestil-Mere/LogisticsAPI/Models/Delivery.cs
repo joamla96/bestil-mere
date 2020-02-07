@@ -2,7 +2,7 @@ namespace LogisticsAPI.Models
 {
     public class Delivery
     {
-        public string LocationFrom { get; set; }
-        public string LocationTo { get; set; }
+        public Location LocationFrom { get; set; }
+        public Location LocationTo { get; set; }
     }
 }
