@@ -17,7 +17,7 @@ namespace LogisticsAPI.Models
         public string Country { get; set; }
         public GeoCoordinate GeoLocation { get; set; }
 
-        public LocationDTO Convert()
+        public LocationDTO Export()
         {
             var model = new LocationDTO()
             {
@@ -35,16 +35,21 @@ namespace LogisticsAPI.Models
             return model;
         }
 
-        public void Convert(LocationDTO input)
+        public static Location Parse(LocationDTO input)
         {
-            this.StreetName = input.StreetName;
-            this.HouseNo = input.HouseNo;
-            this.Apartment = input.Apartment;
-            this.PostCode = input.PostCode;
-            this.City = input.City;
-            this.State = input.State;
-            this.Country = input.Country;
-            this.GeoLocation = new GeoCoordinate(input.GeoLocation.Item1, input.GeoLocation.Item2);
+            var model = new Location()
+            {
+                StreetName = input.StreetName,
+                HouseNo = input.HouseNo,
+                Apartment = input.Apartment,
+                PostCode = input.PostCode,
+                City = input.City,
+                State = input.State,
+                Country = input.Country,
+                GeoLocation = new GeoCoordinate(input.GeoLocation.Item1, input.GeoLocation.Item2)
+            };
+
+            return model;
         }
     }
 }
