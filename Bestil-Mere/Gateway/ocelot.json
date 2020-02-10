@@ -1,0 +1,103 @@
+{
+    "ReRoutes": [
+        {
+            "DownstreamPathTemplate": "/api/customers/{id}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "customerapi",
+                    "Port": 80
+                }
+            ],
+            "UpstreamPathTemplate": "/customers/{id}",
+            "UpstreamHttpMethod": [ "Get", "Put", "Delete" ]
+        },
+        {
+            "DownstreamPathTemplate": "/api/customers",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "customerapi",
+                    "Port": 80
+                }
+            ],
+            "UpstreamPathTemplate": "/customers",
+            "UpstreamHttpMethod": [ "Get", "Post" ]
+        },
+        {
+            "DownstreamPathTemplate": "/api/restaurants/{id}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "restaurantapi",
+                    "Port": 80
+                }
+            ],
+            "UpstreamPathTemplate": "/restaurants/{id}",
+            "UpstreamHttpMethod": [ "Get", "Put", "Delete" ]
+        },
+        {
+            "DownstreamPathTemplate": "/api/restaurants",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "restaurantapi",
+                    "Port": 80
+                }
+            ],
+            "UpstreamPathTemplate": "/restaurants",
+            "UpstreamHttpMethod": [ "Get", "Post" ]
+        },
+        {
+            "DownstreamPathTemplate": "/api/orders/{id}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "orderapi",
+                    "Port": 80
+                }
+            ],
+            "UpstreamPathTemplate": "/orders/{id}",
+            "UpstreamHttpMethod": [ "Get", "Put", "Delete" ]
+        },
+        {
+            "DownstreamPathTemplate": "/api/orders",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "orderapi",
+                    "Port": 80
+                }
+            ],
+            "UpstreamPathTemplate": "/orders",
+            "UpstreamHttpMethod": [ "Get", "Post" ]
+        },
+        {
+            "DownstreamPathTemplate": "/api/logistics/{id}",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "logisticapi",
+                    "Port": 80
+                }
+            ],
+            "UpstreamPathTemplate": "/logistics/{id}",
+            "UpstreamHttpMethod": [ "Get", "Put", "Delete" ]
+        },
+        {
+            "DownstreamPathTemplate": "/api/logistics",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "logisticsapi",
+                    "Port": 80
+                }
+            ],
+            "UpstreamPathTemplate": "/logistics",
+            "UpstreamHttpMethod": [ "Get", "Post" ]
+        }
+    ],
+    "GlobalConfiguration": {
+        "BaseUrl": "http://localhost:53004"
+    }
+}
