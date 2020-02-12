@@ -36,41 +36,33 @@ namespace PaymentAPI.Services
         private async void AuthorizePayment(Payment p)
         {
             p.Status = PaymentStatus.Authorizing;
-            await Update(p);
+            await UpdateAndPublish(p);
             
+            // TODO: What should we do here?
             Thread.Sleep(2000);
             
             p.Status = PaymentStatus.Accepted;
-            await Update(p);
-            
-            _publisher.PublishNewPaymentStatus(new NewPaymentStatus()
-            {
-                Status = p.Status.Parse(),
-                OrderId = p.OrderId,
-                PaymentId = p.Id
-            });
+            await UpdateAndPublish(p);
         }
         
-        
-
-
         public async Task<Payment> Get(string id)
         {
             var findAll = await _payments.FindAsync(order => order.Id == id);
             return await findAll.FirstOrDefaultAsync();
         }
 
-        public async Task Update(Payment p)
+        private async Task UpdateAndPublish(Payment p)
         {
             var up = Builders<Payment>.Update
                 .Set(pp => pp.Status, p.Status);
 
             await _payments.UpdateOneAsync(u => u.Id == p.Id, up);
-        }
-
-        private void UpdatePayment(Payment p)
-        {
-            // Update payment in db
+            _publisher.PublishNewPaymentStatus(new NewPaymentStatus()
+            {
+                Status = p.Status.Parse(),
+                OrderId = p.OrderId,
+                PaymentId = p.Id
+            });
         }
     }
 }

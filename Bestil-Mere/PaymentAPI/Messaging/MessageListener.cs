@@ -31,7 +31,6 @@ namespace PaymentAPI.Messaging
                 bus.Subscribe<CreatePaymentModel>("payment-api",
                     _paymentService.CreatePayment);
 
-                // Block the thread so that it will not exit and stop subscribing.
                 lock (this)
                 {
                     Monitor.Wait(this);
