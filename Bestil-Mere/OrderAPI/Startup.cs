@@ -13,6 +13,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using MongoDB.Bson.Serialization;
 using OrderAPI.Db;
+using OrderAPI.Extensions;
+using OrderAPI.Messaging;
 using OrderAPI.Models;
 using OrderAPI.Services;
 
@@ -38,6 +40,11 @@ namespace OrderAPI
                 sp.GetRequiredService<IOptions<OrderDatabaseSettings>>().Value);
             services.AddSingleton<MongoDbManager>();
             services.AddTransient<IOrderService, OrderService>();
+            services.AddSingleton<MessagePublisher>();
+            services.AddSingleton<MessageListener>();
+            services.Configure<MessagingSettings>(Configuration.GetSection(nameof(MessagingSettings)));
+            services.AddSingleton<IMessagingSettings>(sp => sp.GetRequiredService<IOptions<MessagingSettings>>().Value);
+            
             services.AddControllers();
         }
 
@@ -52,6 +59,7 @@ namespace OrderAPI
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseMessageListener();
 
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }

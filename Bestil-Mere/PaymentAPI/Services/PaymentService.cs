@@ -22,7 +22,7 @@ namespace PaymentAPI.Services
         
         public async void CreatePayment(CreatePaymentModel model)
         {
-            Console.WriteLine($"Creating payment..");
+            Console.WriteLine($"[Creating new Payment] for order: {model.OrderId}");
             var payment = new Payment()
             {
                 Status = PaymentStatus.Created,
