@@ -48,6 +48,7 @@ services:
     hostname: rabbitmq
     ports:
      - "53100:15672"
+     - "5672:5672"
     volumes:
      - rabbitmq:/var/lib/rabbitmq
     environment:
@@ -62,6 +63,14 @@ services:
     volumes:
      - db-data:/data/db
      - mongo-config:/data/configdb
+
+  paymentapi:
+    image: ${DOCKER_REGISTRY}paymentapi
+    build:
+      context: .
+      dockerfile: PaymentAPI/Dockerfile
+    ports:
+      - "5004:80"
  
 volumes:
   db-data:
