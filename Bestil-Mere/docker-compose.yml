@@ -42,7 +42,7 @@ services:
     ports:
       - "53003:80"
 
-  gataway:
+  gateway:
     image: ${DOCKER_REGISTRY}gateway
     build:
       context: .

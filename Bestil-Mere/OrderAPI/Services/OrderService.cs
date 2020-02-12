@@ -74,6 +74,7 @@ namespace OrderAPI.Services
         {
             Console.WriteLine($"[New payment status] {status.Status.ToString()} on order: {status.OrderId}");
             if (status.Status != PaymentStatusDTO.Accepted) return;
+            
             Thread.Sleep(5000); // Emulate Restaurant's response to this new Order
             Console.WriteLine($"[Payment Accepted] Proceeding with order..");
             ProceedOrder(status.OrderId);
@@ -83,8 +84,7 @@ namespace OrderAPI.Services
         {
             var order = await Get(statusOrderId);
             order.OrderStatus = OrderStatus.Accepted;
-            // Emit to client that his order has been ordered.
-            
+            // TODO: Save the order with the new status
         }
 
         public void Update(string id, Order orderIn) =>
