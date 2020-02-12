@@ -17,7 +17,7 @@ namespace LogisticsAPI.Services
 
         public LogisticPartnerService(MongoDbService database, MessagingService msgService)
         {
-            this._partners = database.partners;
+            this._partners = database.Partners;
             this._bus = msgService.Bus;
         }
 
