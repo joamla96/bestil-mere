@@ -45,6 +45,7 @@ namespace PaymentAPI
             // Add classes to DI container
             services.AddSingleton<MongoDbManager>();
             services.AddSingleton<MessageListener>();
+            services.AddSingleton<MessagePublisher>();
             services.AddTransient<IPaymentService, PaymentService>();
             
             services.AddControllers();
