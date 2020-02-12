@@ -10,11 +10,11 @@ services:
       - "443:443"
       - "80:80"
 
-  customerservice:
-    image: ${DOCKER_REGISTRY}customerservice
+  customerapi:
+    image: ${DOCKER_REGISTRY}customerapi
     build:
-      context: CustomerAPI/
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: CustomerAPI/Dockerfile
     ports:
       - "53000:80"
 
@@ -40,7 +40,15 @@ services:
       context: .
       dockerfile: RestaurantAPI/Dockerfile
     ports:
-      - "5003:80"
+      - "53003:80"
+
+  gataway:
+    image: ${DOCKER_REGISTRY}gateway
+    build:
+      context: .
+      dockerfile: Gateway/Dockerfile
+    ports:
+      - "53004:80"
 
   rabbitmq:
     image: rabbitmq:3-management
