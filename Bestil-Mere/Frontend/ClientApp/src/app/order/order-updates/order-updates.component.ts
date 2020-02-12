@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {OrderService} from '../shared/order.service';
+import {first, switchMap} from 'rxjs/operators';
 
 @Component({
 	selector: 'app-order-updates',
@@ -13,7 +14,7 @@ export class OrderUpdatesComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		this.route.queryParams.subscribe(qp => console.log('qp: ', qp));
+
 	}
 
 }

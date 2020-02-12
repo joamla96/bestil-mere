@@ -3,12 +3,16 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {CreateOrderModel} from './createOrderModel';
+import * as signalR from '@aspnet/signalr';
+import {isNullOrUndefined} from 'util';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class OrderService {
 	private url = environment.gateway;
+	private hubConnection: signalR.HubConnection;
+	private orderUpdatesUrl = ''; // TODO: Hub url here
 
 	constructor(private http: HttpClient) {
 	}
@@ -44,5 +48,23 @@ export class OrderService {
 			]
 		};
 		return this.http.post(this.url + 'order/create-order', model);
+	}
+
+	openConnection(): Promise<void> {
+		if (this.hubConnection === null) {
+			this.hubConnection = new signalR.HubConnectionBuilder()
+				.withUrl(this.orderUpdatesUrl)
+				.build();
+		}
+		return this.hubConnection.start();
+	}
+
+	orderUpdates(orderId: string): Observable<any> { // TODO: Impl of orderstatus
+		return new Observable((obs) => {
+			this.hubConnection.on('orderUpdates',
+				(data) => {
+					obs.next(data);
+				});
+		});
 	}
 }

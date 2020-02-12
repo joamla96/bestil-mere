@@ -15,6 +15,7 @@ using Microsoft.Extensions.Options;
 using MongoDB.Bson.Serialization;
 using OrderAPI.Db;
 using OrderAPI.Extensions;
+using OrderAPI.Hubs;
 using OrderAPI.Messaging;
 using OrderAPI.Models;
 using OrderAPI.Services;
@@ -57,7 +58,7 @@ namespace OrderAPI
             {
                 options.AddPolicy("CorsPolicy", corsBuilder.Build());
             });
-            
+            services.AddSignalR();
             services.AddControllers();
         }
 
@@ -75,7 +76,11 @@ namespace OrderAPI
             app.UseAuthorization();
             app.UseMessageListener();
 
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+                endpoints.MapHub<OrderHub>("/order-updates");
+            });
         }
     }
 }
