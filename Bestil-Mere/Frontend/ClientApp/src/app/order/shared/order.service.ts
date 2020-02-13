@@ -52,12 +52,9 @@ export class OrderService {
 	}
 
 	openConnection(orderId: string): Promise<void> {
-		if (isNullOrUndefined(this.hubConnection)) {
-			console.log('here');
 			this.hubConnection = new signalR.HubConnectionBuilder()
 				.withUrl(this.orderUpdatesUrl + '?order=' + orderId)
 				.build();
-		}
 		return this.hubConnection.start();
 	}
 

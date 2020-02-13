@@ -22,6 +22,10 @@ namespace OrderAPI.Hubs
             Console.WriteLine($"Client connected!");
             var orderId = Context.GetHttpContext().Request.Query["order"];
             Console.WriteLine($"Client has orderid: {orderId}");
+            if (Connections.ContainsKey(orderId))
+            {
+                Connections.TryUpdate(orderId, Context.ConnectionId, StringComparison.Ordinal.ToString());
+            }
             Connections.TryAdd(orderId, Context.ConnectionId);
             Context.Items.Add(orderId, Context.ConnectionId);
             var order = _orderService.Get(orderId);

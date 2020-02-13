@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {OrderService} from '../shared/order.service';
 import {first, switchMap} from 'rxjs/operators';
 import {OrderStatus} from '../shared/orderStatus';
@@ -15,8 +15,9 @@ export class OrderUpdatesComponent implements OnInit, OnDestroy {
 	statusResps: OrderStatus[] = [];
 	OrderStatus = OrderStatus;
 	sub: Subscription;
+	accepted = false;
 
-	constructor(private route: ActivatedRoute, private service: OrderService) {
+	constructor(private route: ActivatedRoute, private service: OrderService, private router: Router) {
 	}
 
 	ngOnInit() {
@@ -26,6 +27,12 @@ export class OrderUpdatesComponent implements OnInit, OnDestroy {
 			this.sub = this.service.orderUpdates()
 				.subscribe((currentStatus: OrderStatus) => {
 					this.statusResps.push(currentStatus);
+					if (currentStatus === OrderStatus.Accepted) {
+						this.accepted = true;
+						setTimeout(() => {
+								this.router.navigateByUrl('/order/order-list');
+						}, 5000);
+					}
 				});
 
 		});

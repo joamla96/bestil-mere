@@ -4,6 +4,9 @@
 <div *ngFor="let s of statusResps">
 	{{OrderStatus[s]}}
 </div>
-<div *ngIf="statusResps.length === 0">
-	Venter på payment bliver authorized...
+<div *ngIf="accepted">
+	<p>
+		Din ordre er nu accepteret :) <br>
+		Du vil blive viderestillet om 5 sekunder..
+	</p>
 </div>
