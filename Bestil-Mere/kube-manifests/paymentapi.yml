@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: paymentapi-deployment
+  labels:
+    app: paymentapi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: paymentapi
+  template:
+    metadata:
+      labels:
+        app: paymentapi
+    spec:
+      containers:
+      - name: paymentapi
+        image: bestilmere/paymentapi:latest
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: paymentapi-lb
+spec:
+  ports:
+  - name: http
+    port: 53005
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: gateway
+  type: LoadBalancer
+

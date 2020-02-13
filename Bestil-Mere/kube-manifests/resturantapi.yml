@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: resturantapi-deployment
+  labels:
+    app: resturantapi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: resturantapi
+  template:
+    metadata:
+      labels:
+        app: resturantapi
+    spec:
+      containers:
+      - name: resturantapi
+        image: bestilmere/resturantapi:latest
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: resturantapi-lb
+spec:
+  ports:
+  - name: http
+    port: 53003
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: gateway
+  type: LoadBalancer
+
