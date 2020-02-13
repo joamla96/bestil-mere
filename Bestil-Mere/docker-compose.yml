@@ -63,7 +63,7 @@ services:
      - RABBITMQ_ERLANG_COOKIE=cluster_cookie
      - RABBITMQ_DEFAULT_USER=admin
      - RABBITMQ_DEFAULT_PASS=admin  
-
+ 
   mongodb:
     image: mongo:latest
     ports:
