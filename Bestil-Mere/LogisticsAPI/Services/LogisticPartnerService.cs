@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EasyNetQ;
+using LogisticsAPI.Messaging;
 using LogisticsAPI.Models;
 using Models;
 using Models.Messages.Logistics;
@@ -13,12 +14,12 @@ namespace LogisticsAPI.Services
     public class LogisticPartnerService : ILogisticsPartnerService
     {
         private readonly IMongoCollection<Partner> _partners;
-        private readonly IBus _bus;
+        private readonly MessagePublisher _publisher;
 
-        public LogisticPartnerService(MongoDbService database, MessagingService msgService)
+        public LogisticPartnerService(MongoDbService database, MessagePublisher publisher)
         {
-            this._partners = database.Partners;
-            this._bus = msgService.Bus;
+            _partners = database.Partners;
+            _publisher = publisher;
         }
 
         public async Task<ICollection<Partner>> Get()
@@ -36,7 +37,7 @@ namespace LogisticsAPI.Services
         public async Task<bool> Insert(Partner partner)
         {
             await _partners.InsertOneAsync(partner);
-            await _bus.PublishAsync(new NewPartner() {Id = partner.Id});
+            _publisher.PublishNewPartner(new NewPartner() {Id = partner.Id});
             
             return true;
         }
@@ -46,22 +47,22 @@ namespace LogisticsAPI.Services
             await _partners.InsertManyAsync(partners);
             foreach (var item in partners)
             {
-                await _bus.PublishAsync(new NewPartner() {Id = item.Id});
+                _publisher.PublishNewPartner(new NewPartner() {Id = item.Id});
             }
             return true;
         }
 
         public async Task<bool> Update(string id, Partner partner)
         {
-            await _bus.PublishAsync(new UpdatedPartner() {Id = id});
             await _partners.ReplaceOneAsync(x => x.Id == id, partner);
+            _publisher.PublishUpdatedPartner(new UpdatedPartner() {Id = id});
             return true;
         }
 
         public async Task<bool> Remove(string id)
         {
-            await _bus.PublishAsync(new DeletedPartner() {Id = id});
             await _partners.DeleteOneAsync(x => x.Id == id);
+            _publisher.PublishDeletedPartner(new DeletedPartner() {Id = id});
             return true;
         }
 
