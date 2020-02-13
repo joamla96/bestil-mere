@@ -27,5 +27,10 @@ namespace LogisticsAPI.Messaging
             await _bus.PublishAsync(deletedPartner);
         }
 
+        public async void PublishDeliveryResponse(DeliveryResponse deliveryResponse)
+        {
+            await _bus.PublishAsync(deliveryResponse);
+        }
+
     }
 }

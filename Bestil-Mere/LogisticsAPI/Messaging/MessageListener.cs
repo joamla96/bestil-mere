@@ -2,19 +2,21 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using EasyNetQ;
-using Models.Restaurant;
 using LogisticsAPI.Services;
+using Models.Messages.Logistics;
 
 namespace LogisticsAPI.Messaging
 {
     public class MessageListener
     {
         private readonly ILogisticsPartnerService _logisticsService;
+        private readonly IDeliveryService _deliveryService;
         private readonly IMessagingSettings _messagingSettings;
 
-        public MessageListener(ILogisticsPartnerService logisticsService, IMessagingSettings messagingSettings)
+        public MessageListener(ILogisticsPartnerService logisticsService, IDeliveryService deliveryService, IMessagingSettings messagingSettings)
         {
             _logisticsService = logisticsService;
+            _deliveryService = deliveryService;
             _messagingSettings = messagingSettings;
         }
 
@@ -28,8 +30,8 @@ namespace LogisticsAPI.Messaging
                 using var bus = RabbitHutch.CreateBus(_messagingSettings.ConnectionString);
 
                 // Listen for new logistics requests
-//                bus.Subscribe<LogisticsOrderRequestModel>("logistics-api",
-//                    _logisticsService.RequestOrder);
+                bus.Subscribe<DeliveryRequest>("logistics-api",
+                    _deliveryService.DeliveryRequest);
 
                 lock (this)
                 {

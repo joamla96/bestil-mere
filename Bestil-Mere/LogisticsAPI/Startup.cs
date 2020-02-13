@@ -1,19 +1,13 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using LogisticsAPI.Extensions;
 using LogisticsAPI.Messaging;
 using LogisticsAPI.Models;
 using LogisticsAPI.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace LogisticsAPI
@@ -46,6 +40,7 @@ namespace LogisticsAPI
             services.AddSingleton<MessagePublisher>();
             
             services.AddTransient<ILogisticsPartnerService, LogisticPartnerService>();
+            services.AddTransient<IDeliveryService, DeliveryService>();
             
             
             services.AddControllers();
