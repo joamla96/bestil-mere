@@ -21,10 +21,10 @@ spec:
         - containerPort: 15672
         - containerPort: 5672
         env:
-          - name: RABBITMQ_DEFAULT_USER
-          value:  "admin"
-          - name: RABBITMQ_DEFAULT_PASS
-          value:  "admin"
+        - name: RABBITMQ_DEFAULT_USER
+          value: "admin"
+        - name: RABBITMQ_DEFAULT_PASS
+          value: "admin"
 ---
 apiVersion: v1
 kind: Service
@@ -32,11 +32,11 @@ metadata:
   name: rabbitmq-np
 spec:
   ports:
-  - name: http
+  - name: http-mngtmnt
     port: 53100
     protocol: TCP
     targetPort: 15672
-  - name: http
+  - name: mq
     port: 5672
     protocol: TCP
     targetPort: 5672
