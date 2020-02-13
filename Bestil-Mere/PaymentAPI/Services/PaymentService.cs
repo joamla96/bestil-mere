@@ -36,6 +36,7 @@ namespace PaymentAPI.Services
         private async void AuthorizePayment(Payment p)
         {
             p.Status = PaymentStatus.Authorizing;
+            Thread.Sleep(1500);
             await UpdateAndPublish(p);
             
             // TODO: What should we do here?

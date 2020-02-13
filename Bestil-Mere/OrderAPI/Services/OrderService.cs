@@ -100,6 +100,7 @@ namespace OrderAPI.Services
         private async void NotifyClient(string orderId, OrderStatus status)
         {
             OrderHub.Connections.TryGetValue(orderId, out var ci);
+            if (string.IsNullOrEmpty(ci)) return;
             await _orderHub.Clients.Client(ci).SendAsync("orderUpdates", status);
         }
 

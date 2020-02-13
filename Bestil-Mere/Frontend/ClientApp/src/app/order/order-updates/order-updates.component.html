@@ -4,3 +4,6 @@
 <div *ngFor="let s of statusResps">
 	{{OrderStatus[s]}}
 </div>
+<div *ngIf="statusResps.length === 0">
+	Venter på payment bliver authorized...
+</div>

@@ -18,5 +18,14 @@ namespace OrderAPI.Hubs
             Context.Items.Add(orderId, Context.ConnectionId);
             return base.OnConnectedAsync();
         }
+
+        public override Task OnDisconnectedAsync(Exception exception)
+        {
+            Console.WriteLine($"Client disconnected!");
+            var orderId = Context.GetHttpContext().Request.Query["order"];
+            Console.WriteLine($"Client has orderid: {orderId}");
+            Connections.TryRemove(orderId, out var s);
+            return base.OnDisconnectedAsync(exception);
+        }
     }
 }
