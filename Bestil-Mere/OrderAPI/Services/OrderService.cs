@@ -73,11 +73,12 @@ namespace OrderAPI.Services
             return order;
         }
 
-        public void OnPaymentStatusUpdate(NewPaymentStatus status)
+        public async void OnPaymentStatusUpdate(NewPaymentStatus status)
         {
             if (status.Status == PaymentStatusDTO.Authorizing)
             {
                 NotifyClient(status.OrderId, OrderStatus.Pending);
+                UpdateOrderStatus(status.OrderId, OrderStatus.Pending);
             }
             
             if (status.Status != PaymentStatusDTO.Accepted) return;
@@ -94,7 +95,7 @@ namespace OrderAPI.Services
             
             // Notify the client that his order has been accepted
             NotifyClient(order.Id, order.OrderStatus);
-            // TODO: Save the order with the new status
+            UpdateOrderStatus(order.Id, order.OrderStatus);
         }
 
         private async void NotifyClient(string orderId, OrderStatus status)
@@ -104,8 +105,14 @@ namespace OrderAPI.Services
             await _orderHub.Clients.Client(ci).SendAsync("orderUpdates", status);
         }
 
-        public void Update(string id, Order orderIn) =>
-            _orders.ReplaceOne(order => order.Id == id, orderIn);
+        private async void UpdateOrderStatus(string id, OrderStatus status)
+        {
+            
+            var up = Builders<Order>.Update
+                .Set(pp => pp.OrderStatus, status);
+
+            await _orders.UpdateOneAsync(u => u.Id == id, up);
+        }
 
         public void Remove(Order orderIn) =>
             _orders.DeleteOne(order => order.Id == orderIn.Id);

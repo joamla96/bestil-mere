@@ -12,7 +12,7 @@ import {OrderStatus} from './orderStatus';
 })
 export class OrderService {
 	private url = environment.gateway;
-	private hubConnection: signalR.HubConnection;
+	hubConnection: signalR.HubConnection;
 	private orderUpdatesUrl = environment.gateway + 'order/order-updates';
 
 	constructor(private http: HttpClient) {
