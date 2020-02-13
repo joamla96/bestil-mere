@@ -1,0 +1,23 @@
+name: Docker Build and Publish
+
+on: 
+  push:
+    branches: master
+    
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    env: 
+      DOCKER_REGISTRY: "bestilmere/"
+      DOCKER_USERNAME: "peacedealer"
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run a one-line script
+      run: |
+       echo -n ${{ secrets.REGISTRY_PASSWORD }} | docker login -u $DOCKER_USERNAME --password-stdin
+       cd Bestil-Mere
+       docker-compose build
+       docker-compose push
