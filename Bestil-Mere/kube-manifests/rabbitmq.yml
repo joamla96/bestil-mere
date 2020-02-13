@@ -41,6 +41,6 @@ spec:
     protocol: TCP
     targetPort: 5672
   selector:
-    app: gateway
+    app: rabbitmq
   type: NodePort
 
