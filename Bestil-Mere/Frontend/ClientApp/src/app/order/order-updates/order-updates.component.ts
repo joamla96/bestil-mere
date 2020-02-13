@@ -14,6 +14,12 @@ export class OrderUpdatesComponent implements OnInit {
 	}
 
 	ngOnInit() {
+		this.service.openConnection().then(() => {
+			this.service.orderUpdates('')
+				.subscribe(() => {
+					console.log('connected.');
+				});
+		});
 
 	}
 

@@ -29,30 +29,29 @@ namespace Gateway
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var corsBuilder = new CorsPolicyBuilder();
-            corsBuilder.AllowAnyHeader();
-            corsBuilder.AllowAnyMethod(); 
-            corsBuilder.AllowAnyOrigin(); // For anyone access.
-            // corsBuilder.WithOrigins("http://localhost:4200"); // for a specific url. Don't add a forward slash on the end!
-
-            services.AddCors(options =>
+            services.AddCors(options => options.AddPolicy("CorsPolicy", builder =>
             {
-                options.AddPolicy("CorsPolicy", corsBuilder.Build());
-            });
+                builder
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .WithOrigins("http://localhost:4200")
+                    .AllowCredentials();
+            }));
+            services.AddSignalR();
             services.AddOcelot(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public async void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors("CorsPolicy");
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseCors("CorsPolicy");
+            app.UseWebSockets();
             await app.UseOcelot();
-
         }
     }
 }

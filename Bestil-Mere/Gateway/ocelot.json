@@ -113,12 +113,36 @@
             "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "orderapi",
-                    "Port": 80
+                    "Host": "localhost",
+                    "Port": 53001
                 }
             ],
             "UpstreamPathTemplate": "/order/create-order",
             "UpstreamHttpMethod": [ "Post" ]
+        },
+        {
+            "DownstreamPathTemplate": "/order-updates",
+            "DownstreamScheme": "ws",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 53001
+                }
+            ],
+            "UpstreamPathTemplate": "/order/order-updates",
+            "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ]
+        },
+        {
+            "DownstreamPathTemplate": "/order-updates/negotiate",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "localhost",
+                    "Port": 53001
+                }
+            ],
+            "UpstreamPathTemplate": "/order/order-updates/negotiate",
+            "UpstreamHttpMethod": [ "POST", "OPTIONS" ]
         }
     ],
     "GlobalConfiguration": {

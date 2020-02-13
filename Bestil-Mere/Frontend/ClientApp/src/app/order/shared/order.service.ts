@@ -12,7 +12,7 @@ import {isNullOrUndefined} from 'util';
 export class OrderService {
 	private url = environment.gateway;
 	private hubConnection: signalR.HubConnection;
-	private orderUpdatesUrl = ''; // TODO: Hub url here
+	private orderUpdatesUrl = environment.gateway + 'order/order-updates';
 
 	constructor(private http: HttpClient) {
 	}
@@ -51,7 +51,8 @@ export class OrderService {
 	}
 
 	openConnection(): Promise<void> {
-		if (this.hubConnection === null) {
+		if (isNullOrUndefined(this.hubConnection)) {
+			console.log('here');
 			this.hubConnection = new signalR.HubConnectionBuilder()
 				.withUrl(this.orderUpdatesUrl)
 				.build();

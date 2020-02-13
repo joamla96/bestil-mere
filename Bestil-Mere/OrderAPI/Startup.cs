@@ -34,6 +34,14 @@ namespace OrderAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options => options.AddPolicy("CorsPolicy", builder =>
+            {
+                builder
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .WithOrigins("http://localhost:4200", "http://localhost:5021", "http://gateway")
+                    .AllowCredentials();
+            }));
             // requires using Microsoft.Extensions.Options
             services.Configure<OrderDatabaseSettings>(
                 Configuration.GetSection(nameof(OrderDatabaseSettings)));
@@ -47,17 +55,6 @@ namespace OrderAPI
             services.Configure<MessagingSettings>(Configuration.GetSection(nameof(MessagingSettings)));
             services.AddSingleton<IMessagingSettings>(sp => sp.GetRequiredService<IOptions<MessagingSettings>>().Value);
             
-            var corsBuilder = new CorsPolicyBuilder();
-            corsBuilder.AllowAnyHeader();
-            corsBuilder.AllowAnyMethod(); 
-            corsBuilder.AllowAnyOrigin(); // For anyone access.
-            //corsBuilder.WithOrigins("http://gateway"); // for a specific url. Don't add a forward slash on the end!
-            
-
-            services.AddCors(options =>
-            {
-                options.AddPolicy("CorsPolicy", corsBuilder.Build());
-            });
             services.AddSignalR();
             services.AddControllers();
         }
