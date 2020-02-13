@@ -10,5 +10,7 @@ namespace LogisticsAPI.Services
         {
             this.Bus = RabbitHutch.CreateBus(settings.ConnectionString);
         }
+        
+        
     }
 }

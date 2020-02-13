@@ -11,13 +11,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using RestaurantAPI.Db;
-using RestaurantAPI.Extensions;
-using RestaurantAPI.Messaging;
-using RestaurantAPI.Models;
-using RestaurantAPI.Services;
+using PaymentAPI.Db;
+using PaymentAPI.Extensions;
+using PaymentAPI.Messaging;
+using PaymentAPI.Services;
 
-namespace RestaurantAPI
+namespace PaymentAPI
 {
     public class Startup
     {
@@ -31,23 +30,23 @@ namespace RestaurantAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // requires using Microsoft.Extensions.Options
-            services.Configure<RestaurantDatabaseSettings>(
-                Configuration.GetSection(nameof(RestaurantDatabaseSettings)));
+            // Configure database settings
+            services.Configure<PaymentDatabaseSettings>(
+                Configuration.GetSection(nameof(PaymentDatabaseSettings)));
+            services.AddSingleton<IPaymentDatabaseSettings>(sp => 
+                sp.GetRequiredService<IOptions<PaymentDatabaseSettings>>().Value);
 
             // Configure messaging settings
             services.Configure<MessagingSettings>(
                 Configuration.GetSection(nameof(MessagingSettings)));
             services.AddSingleton<IMessagingSettings>(sp => 
                 sp.GetRequiredService<IOptions<MessagingSettings>>().Value);
-            
-            services.AddSingleton<IRestaurantDatabaseSettings>(sp => 
-                sp.GetRequiredService<IOptions<RestaurantDatabaseSettings>>().Value);
+
+            // Add classes to DI container
             services.AddSingleton<MongoDbManager>();
-            services.AddTransient<IRestaurantService, RestaurantService>();
             services.AddSingleton<MessageListener>();
             services.AddSingleton<MessagePublisher>();
-            services.AddTransient<IMenuService, MenuService>();
+            services.AddTransient<IPaymentService, PaymentService>();
             
             services.AddControllers();
         }
@@ -60,7 +59,7 @@ namespace RestaurantAPI
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseMessageListener(); // Listens for messages for order requests
+            app.UseMessageListener(); // Listens for messages for payment requests
 
             app.UseRouting();
 

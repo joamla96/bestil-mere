@@ -1,11 +1,15 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Models;
+using Models.Messages.Restaurant;
 using Models.Restaurant;
 using RestaurantAPI.Models;
 using MongoDB.Driver;
 using RestaurantAPI.Db;
+using RestaurantAPI.Messaging;
 using RestaurantAPI.Utils.Converters;
 
 namespace RestaurantAPI.Services
@@ -14,11 +18,13 @@ namespace RestaurantAPI.Services
     {
        private readonly IMongoCollection<Restaurant> _restaurants;
        private readonly IMenuService _menuService;
+       private readonly MessagePublisher _publisher;
 
-        public RestaurantService(MongoDbManager mgr, IMenuService menuService)
+        public RestaurantService(MongoDbManager mgr, IMenuService menuService, MessagePublisher publisher)
         {
             _restaurants = mgr.Restaurants;
             _menuService = menuService;
+            _publisher = publisher;
         }
 
         public async Task<List<RestaurantDTO>> Get()
@@ -71,5 +77,18 @@ namespace RestaurantAPI.Services
 
         public void Remove(string id) => 
             _restaurants.DeleteOne(restaurant => restaurant.Id == id);
+
+        public void RequestOrder(RestaurantOrderRequestModel ros)
+        {
+            Console.WriteLine("Received message...");
+            Thread.Sleep(5000);
+            
+            Console.WriteLine("Sending message...");
+            _publisher.PublishRestaurantOrderStatus(new RestaurantOrderStatus()
+            {
+                OrderId = ros.OrderId,
+                Status = RestaurantOrderStatusDTO.Accepted
+            });
+        }
     }
 }
