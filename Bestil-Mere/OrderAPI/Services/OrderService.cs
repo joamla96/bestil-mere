@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.SignalR;
 using Models;
 using Models.Messages.Payment;
 using Models.Order;
 using Models.Payment;
 using MongoDB.Driver;
 using OrderAPI.Db;
+using OrderAPI.Hubs;
 using OrderAPI.Messaging;
 using OrderAPI.Models;
 using ExtraMealItem = OrderAPI.Models.ExtraMealItem;
@@ -20,10 +22,12 @@ namespace OrderAPI.Services
     {
         private readonly IMongoCollection<Order> _orders;
         private readonly MessagePublisher _publisher;
-        public OrderService(MongoDbManager mgr, MessagePublisher publisher)
+        private IHubContext<OrderHub> _orderHub;
+        public OrderService(MongoDbManager mgr, MessagePublisher publisher, IHubContext<OrderHub> orderHub)
         {
             _orders = mgr.Orders;
             _publisher = publisher;
+            _orderHub = orderHub;
         }
 
         public async Task<List<Order>> Get()
@@ -66,13 +70,16 @@ namespace OrderAPI.Services
             // accepted/rejected by the res, return the order and make the client wait.
             await _orders.InsertOneAsync(order);
             _publisher.AuthorizePaymentForOrder(order);
-            
             return order;
         }
 
         public void OnPaymentStatusUpdate(NewPaymentStatus status)
         {
-            Console.WriteLine($"[New payment status] {status.Status.ToString()} on order: {status.OrderId}");
+            if (status.Status == PaymentStatusDTO.Authorizing)
+            {
+                NotifyClient(status.OrderId, OrderStatus.Pending);
+            }
+            
             if (status.Status != PaymentStatusDTO.Accepted) return;
             
             Thread.Sleep(5000); // Emulate Restaurant's response to this new Order
@@ -84,7 +91,16 @@ namespace OrderAPI.Services
         {
             var order = await Get(statusOrderId);
             order.OrderStatus = OrderStatus.Accepted;
+            
+            // Notify the client that his order has been accepted
+            NotifyClient(order.Id, order.OrderStatus);
             // TODO: Save the order with the new status
+        }
+
+        private async void NotifyClient(string orderId, OrderStatus status)
+        {
+            OrderHub.Connections.TryGetValue(orderId, out var ci);
+            await _orderHub.Clients.Client(ci).SendAsync("orderUpdates", status);
         }
 
         public void Update(string id, Order orderIn) =>

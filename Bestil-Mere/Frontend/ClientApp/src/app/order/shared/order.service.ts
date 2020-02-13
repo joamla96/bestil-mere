@@ -5,6 +5,7 @@ import {environment} from '../../../environments/environment';
 import {CreateOrderModel} from './createOrderModel';
 import * as signalR from '@aspnet/signalr';
 import {isNullOrUndefined} from 'util';
+import {OrderStatus} from './orderStatus';
 
 @Injectable({
 	providedIn: 'root'
@@ -50,17 +51,17 @@ export class OrderService {
 		return this.http.post(this.url + 'order/create-order', model);
 	}
 
-	openConnection(): Promise<void> {
+	openConnection(orderId: string): Promise<void> {
 		if (isNullOrUndefined(this.hubConnection)) {
 			console.log('here');
 			this.hubConnection = new signalR.HubConnectionBuilder()
-				.withUrl(this.orderUpdatesUrl)
+				.withUrl(this.orderUpdatesUrl + '?order=' + orderId)
 				.build();
 		}
 		return this.hubConnection.start();
 	}
 
-	orderUpdates(orderId: string): Observable<any> { // TODO: Impl of orderstatus
+	orderUpdates(): Observable<OrderStatus> { // TODO: Impl of orderstatus
 		return new Observable((obs) => {
 			this.hubConnection.on('orderUpdates',
 				(data) => {
