@@ -79,6 +79,10 @@ services:
       dockerfile: PaymentAPI/Dockerfile
     ports:
       - "5004:80"
+  redis:
+   image: redis
+   ports:
+    - "53300:6379"
 volumes:
   db-data:
   mongo-config:
