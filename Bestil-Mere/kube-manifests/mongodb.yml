@@ -23,11 +23,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: mongo-np
+  name: mongodb
 spec:
   ports:
   - name: http
-    port: 53200
+    port: 27017
     protocol: TCP
     targetPort: 27017
   selector:

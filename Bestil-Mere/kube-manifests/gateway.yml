@@ -23,11 +23,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: gateway-lb
+  name: gateway
 spec:
   ports:
   - name: http
-    port: 53003
+    port: 80
     protocol: TCP
     targetPort: 80
   selector:
