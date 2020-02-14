@@ -12,6 +12,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using RestaurantAPI.Db;
+using RestaurantAPI.Extensions;
+using RestaurantAPI.Messaging;
 using RestaurantAPI.Models;
 using RestaurantAPI.Services;
 
@@ -33,10 +35,18 @@ namespace RestaurantAPI
             services.Configure<RestaurantDatabaseSettings>(
                 Configuration.GetSection(nameof(RestaurantDatabaseSettings)));
 
+            // Configure messaging settings
+            services.Configure<MessagingSettings>(
+                Configuration.GetSection(nameof(MessagingSettings)));
+            services.AddSingleton<IMessagingSettings>(sp => 
+                sp.GetRequiredService<IOptions<MessagingSettings>>().Value);
+            
             services.AddSingleton<IRestaurantDatabaseSettings>(sp => 
                 sp.GetRequiredService<IOptions<RestaurantDatabaseSettings>>().Value);
             services.AddSingleton<MongoDbManager>();
             services.AddTransient<IRestaurantService, RestaurantService>();
+            services.AddSingleton<MessageListener>();
+            services.AddSingleton<MessagePublisher>();
             services.AddTransient<IMenuService, MenuService>();
             
             services.AddControllers();
@@ -49,6 +59,8 @@ namespace RestaurantAPI
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseMessageListener(); // Listens for messages for order requests
 
             app.UseRouting();
 

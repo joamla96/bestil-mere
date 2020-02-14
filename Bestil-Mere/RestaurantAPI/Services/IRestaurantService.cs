@@ -12,5 +12,6 @@ namespace RestaurantAPI.Services
         Task<RestaurantDTO> Create(CreateRestaurantModel restaurant);
         void Update(UpdateRestaurantModel restaurant);
         void Remove(string id);
+        void RequestOrder(RestaurantOrderRequestModel ros);
     }
 }
