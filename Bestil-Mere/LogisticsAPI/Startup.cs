@@ -1,17 +1,14 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using LogisticsAPI.Extensions;
+using LogisticsAPI.Messaging;
 using LogisticsAPI.Models;
 using LogisticsAPI.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace LogisticsAPI
 {
@@ -29,13 +26,21 @@ namespace LogisticsAPI
         {
             services.Configure<LogisticsDatabaseSettings>(
                 Configuration.GetSection(nameof(LogisticsDatabaseSettings)));
-            services.Configure<MessagingSettings>(Configuration.GetSection("Messaging"));
 
+            // Configure messaging settings
+            services.Configure<MessagingSettings>(
+                Configuration.GetSection(nameof(MessagingSettings)));
+            services.AddSingleton<IMessagingSettings>(sp => 
+                sp.GetRequiredService<IOptions<MessagingSettings>>().Value);
 
+            services.AddSingleton<ILogisticsDatabaseSettings>(sp => 
+                sp.GetRequiredService<IOptions<LogisticsDatabaseSettings>>().Value);
             services.AddSingleton<MongoDbService>();
-            services.AddSingleton<MessagingService>();
+            services.AddSingleton<MessageListener>();
+            services.AddSingleton<MessagePublisher>();
             
             services.AddTransient<ILogisticsPartnerService, LogisticPartnerService>();
+            services.AddTransient<IDeliveryService, DeliveryService>();
             
             
             services.AddControllers();
@@ -49,7 +54,7 @@ namespace LogisticsAPI
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseHttpsRedirection();
+            app.UseMessageListener(); // Listens for messages for order requests
 
             app.UseRouting();
 
