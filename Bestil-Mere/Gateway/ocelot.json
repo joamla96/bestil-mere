@@ -113,8 +113,8 @@
             "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "localhost",
-                    "Port": 53001
+                    "Host": "orderapi",
+                    "Port": 80
                 }
             ],
             "UpstreamPathTemplate": "/order/create-order",
@@ -125,8 +125,8 @@
             "DownstreamScheme": "ws",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "localhost",
-                    "Port": 53001
+                    "Host": "orderapi",
+                    "Port": 80
                 }
             ],
             "UpstreamPathTemplate": "/order/order-updates",
@@ -137,8 +137,8 @@
             "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
-                    "Host": "localhost",
-                    "Port": 53001
+                    "Host": "orderapi",
+                    "Port": 80
                 }
             ],
             "UpstreamPathTemplate": "/order/order-updates/negotiate",
