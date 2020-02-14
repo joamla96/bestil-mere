@@ -58,12 +58,13 @@ export class OrderService {
 		return this.hubConnection.start();
 	}
 
-	orderUpdates(): Observable<OrderStatus> { // TODO: Impl of orderstatus
+	orderUpdates(): Observable<OrderStatus> {
 		return new Observable((obs) => {
 			this.hubConnection.on('orderUpdates',
 				(data) => {
 					obs.next(data);
 				});
+
 		});
 	}
 }

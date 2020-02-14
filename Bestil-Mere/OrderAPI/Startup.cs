@@ -21,7 +21,6 @@ using OrderAPI.Hubs;
 using OrderAPI.Messaging;
 using OrderAPI.Models;
 using OrderAPI.Services;
-using StackExchange.Redis;
 
 namespace OrderAPI
 {
@@ -57,29 +56,7 @@ namespace OrderAPI
             services.AddSingleton<MessageListener>();
             services.Configure<MessagingSettings>(Configuration.GetSection(nameof(MessagingSettings)));
             services.AddSingleton<IMessagingSettings>(sp => sp.GetRequiredService<IOptions<MessagingSettings>>().Value);
-            services.AddSignalR().AddStackExchangeRedis("redis:6379", options =>
-            {
-                options.Configuration.Password = "redis";
-                options.Configuration.ChannelPrefix = "orderapi";
-                options.ConnectionFactory = async writer =>
-                {
-                    var config = new ConfigurationOptions
-                    {
-                        AbortOnConnectFail = false
-                    };
-                    config.EndPoints.Add(IPAddress.Loopback, 0);
-                    config.SetDefaultPorts();
-                    var connection = await ConnectionMultiplexer.ConnectAsync(config, writer);
-                    connection.ConnectionFailed += (_, e) => { Console.WriteLine("Connection to Redis failed."); };
-
-                    if (!connection.IsConnected)
-                    {
-                        Console.WriteLine("Did not connect to Redis.");
-                    }
-
-                    return connection;
-                };
-            });
+            services.AddSignalR();
             services.AddControllers();
         }
 
