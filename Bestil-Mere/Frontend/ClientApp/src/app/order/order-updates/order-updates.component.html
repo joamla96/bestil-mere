@@ -1,0 +1,12 @@
+<h2>Her kan du se din status på din ordre</h2>
+
+
+<div *ngFor="let s of statusResps">
+	{{OrderStatus[s]}}
+</div>
+<div *ngIf="accepted">
+	<p>
+		Din ordre er nu accepteret :) <br>
+		Du vil blive viderestillet om 5 sekunder..
+	</p>
+</div>

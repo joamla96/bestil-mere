@@ -42,7 +42,7 @@ services:
     ports:
       - "53003:80"
 
-  gataway:
+  gateway:
     image: ${DOCKER_REGISTRY}gateway
     build:
       context: .
@@ -79,7 +79,6 @@ services:
       dockerfile: PaymentAPI/Dockerfile
     ports:
       - "5004:80"
- 
 volumes:
   db-data:
   mongo-config:

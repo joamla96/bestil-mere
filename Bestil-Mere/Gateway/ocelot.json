@@ -107,6 +107,42 @@
             ],
             "UpstreamPathTemplate": "/logistics",
             "UpstreamHttpMethod": [ "Get", "Post" ]
+        },
+        {
+            "DownstreamPathTemplate": "/api/orders",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "orderapi",
+                    "Port": 80
+                }
+            ],
+            "UpstreamPathTemplate": "/order/create-order",
+            "UpstreamHttpMethod": [ "Post" ]
+        },
+        {
+            "DownstreamPathTemplate": "/order-updates",
+            "DownstreamScheme": "ws",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "orderapi",
+                    "Port": 80
+                }
+            ],
+            "UpstreamPathTemplate": "/order/order-updates",
+            "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ]
+        },
+        {
+            "DownstreamPathTemplate": "/order-updates/negotiate",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "orderapi",
+                    "Port": 80
+                }
+            ],
+            "UpstreamPathTemplate": "/order/order-updates/negotiate",
+            "UpstreamHttpMethod": [ "POST", "OPTIONS" ]
         }
     ],
     "GlobalConfiguration": {
