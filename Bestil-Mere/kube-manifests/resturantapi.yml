@@ -23,14 +23,14 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: resturantapi-lb
+  name: resturantapi
 spec:
   ports:
   - name: http
-    port: 53003
+    port: 80
     protocol: TCP
     targetPort: 80
   selector:
     app: resturantapi
-  type: LoadBalancer
+  type: ClusterIP
 

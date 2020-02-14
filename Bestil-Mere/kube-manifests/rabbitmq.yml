@@ -29,11 +29,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: rabbitmq-np
+  name: rabbitmq
 spec:
   ports:
   - name: http-mngtmnt
-    port: 53100
+    port: 15672
     protocol: TCP
     targetPort: 15672
   - name: mq

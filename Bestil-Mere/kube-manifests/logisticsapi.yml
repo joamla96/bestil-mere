@@ -23,14 +23,14 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: logisticsapi-lb
+  name: logisticsapi
 spec:
   ports:
   - name: http
-    port: 53002
+    port: 80
     protocol: TCP
     targetPort: 80
   selector:
     app: logisticsapi
-  type: LoadBalancer
+  type: ClusterIP
 
