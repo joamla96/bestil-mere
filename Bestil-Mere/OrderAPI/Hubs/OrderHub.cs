@@ -10,26 +10,23 @@ namespace OrderAPI.Hubs
 {
     public class OrderHub : Hub
     {
-        public static readonly ConcurrentDictionary<string, string> Connections = new ConcurrentDictionary<string, string>();
+        private readonly OrderConnections _connections;
         private readonly IOrderService _orderService;
 
-        public OrderHub(IOrderService orderService)
+        public OrderHub(IOrderService orderService, OrderConnections orderConnections)
         {
             _orderService = orderService;
+            _connections = orderConnections;
         }
         public override Task OnConnectedAsync()
         {
             Console.WriteLine($"Client connected!");
             var orderId = Context.GetHttpContext().Request.Query["order"];
             Console.WriteLine($"Client has orderid: {orderId}");
-            if (Connections.ContainsKey(orderId))
-            {
-                Connections.TryUpdate(orderId, Context.ConnectionId, StringComparison.Ordinal.ToString());
-            }
-            Connections.TryAdd(orderId, Context.ConnectionId);
-            Context.Items.Add(orderId, Context.ConnectionId);
-            var order = _orderService.Get(orderId);
-            Clients.Client(Context.ConnectionId).SendAsync("orderUpdates", order.Result.OrderStatus);
+            _connections.SetConnectionIdAsync(orderId, Context.ConnectionId).Wait();
+            
+            var order = _orderService.Get(orderId).Result;
+            Clients.Client(Context.ConnectionId).SendAsync("orderUpdates", order.OrderStatus);
             return base.OnConnectedAsync();
         }
 
@@ -38,7 +35,7 @@ namespace OrderAPI.Hubs
             Console.WriteLine($"Client disconnected!");
             var orderId = Context.GetHttpContext().Request.Query["order"];
             Console.WriteLine($"Client has orderid: {orderId}");
-            Connections.TryRemove(orderId, out var s);
+            _connections.RemoveAsync(orderId).Wait();
             return base.OnDisconnectedAsync(exception);
         }
         

@@ -41,7 +41,8 @@ namespace OrderAPI
                 builder
                     .AllowAnyMethod()
                     .AllowAnyHeader()
-                    .WithOrigins("http://localhost:4200", "http://localhost:5021", "http://gateway.bestilmere.xyz", "http://localhost:5021")
+                    .WithOrigins("http://localhost:4200", "http://localhost:5021", "http://gateway.bestilmere.xyz",
+                        "http://localhost:5021", "https://gateway.bestilmere.xyz")
                     .AllowCredentials();
             }));
             // requires using Microsoft.Extensions.Options
@@ -50,6 +51,15 @@ namespace OrderAPI
 
             services.AddSingleton<IOrderDatabaseSettings>(sp =>
                 sp.GetRequiredService<IOptions<OrderDatabaseSettings>>().Value);
+
+            services.Configure<RedisSettings>(
+                Configuration.GetSection(nameof(RedisSettings)));
+
+            services.AddSingleton<IRedisSettings>(sp => 
+                sp.GetRequiredService<IOptions<RedisSettings>>().Value);
+
+            services.AddSingleton<OrderConnections>();
+            
             services.AddSingleton<MongoDbManager>();
             services.AddTransient<IOrderService, OrderService>();
             services.AddSingleton<MessagePublisher>();
@@ -60,7 +70,6 @@ namespace OrderAPI
             {
                 ops.Configuration.ClientName = "orderapi";
                 ops.Configuration.ChannelPrefix = "orderapi";
-
             });
             services.AddControllers();
         }
