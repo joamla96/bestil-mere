@@ -23,11 +23,13 @@ namespace OrderAPI.Services
         private readonly IMongoCollection<Order> _orders;
         private readonly MessagePublisher _publisher;
         private IHubContext<OrderHub> _orderHub;
-        public OrderService(MongoDbManager mgr, MessagePublisher publisher, IHubContext<OrderHub> orderHub)
+        private readonly OrderConnections _orderConnections;
+        public OrderService(MongoDbManager mgr, MessagePublisher publisher, IHubContext<OrderHub> orderHub, OrderConnections orderConnections)
         {
             _orders = mgr.Orders;
             _publisher = publisher;
             _orderHub = orderHub;
+            _orderConnections = orderConnections;
         }
 
         public async Task<List<Order>> Get()
@@ -100,7 +102,7 @@ namespace OrderAPI.Services
 
         private async void NotifyClient(string orderId, OrderStatus status)
         {
-            OrderHub.Connections.TryGetValue(orderId, out var ci);
+            var ci = await _orderConnections.GetConnectionIdAsync(orderId);
             if (string.IsNullOrEmpty(ci)) return;
             await _orderHub.Clients.Client(ci).SendAsync("orderUpdates", status);
         }
