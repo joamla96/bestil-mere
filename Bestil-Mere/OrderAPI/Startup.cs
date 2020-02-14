@@ -56,7 +56,12 @@ namespace OrderAPI
             services.AddSingleton<MessageListener>();
             services.Configure<MessagingSettings>(Configuration.GetSection(nameof(MessagingSettings)));
             services.AddSingleton<IMessagingSettings>(sp => sp.GetRequiredService<IOptions<MessagingSettings>>().Value);
-            services.AddSignalR();
+            services.AddSignalR().AddStackExchangeRedis("redis:6379", ops =>
+            {
+                ops.Configuration.ClientName = "orderapi";
+                ops.Configuration.ChannelPrefix = "orderapi";
+
+            });
             services.AddControllers();
         }
 
