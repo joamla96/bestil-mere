@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Models;
+using Models.Messages.Logistics;
 using Models.Messages.Restaurant;
 using Models.Restaurant;
 using RestaurantAPI.Models;
@@ -81,12 +82,18 @@ namespace RestaurantAPI.Services
         public void RequestOrder(RestaurantOrderRequestModel ros)
         {
             Console.WriteLine("Received message...");
+            _publisher.PublishDeliveryRequest(new DeliveryRequest()
+            {
+                OrderId = ros.Order.Id,
+                DeliveryAddress = "",
+                PickupTime = DateTime.Now.AddMinutes(new Random().Next(10, 20))
+            });
             Thread.Sleep(5000);
             
             Console.WriteLine("Sending message...");
             _publisher.PublishRestaurantOrderStatus(new RestaurantOrderStatus()
             {
-                OrderId = ros.OrderId,
+                OrderId = ros.Order.Id,
                 Status = RestaurantOrderStatusDTO.Accepted
             });
         }
