@@ -41,7 +41,8 @@ namespace MessageTester
                 {
                     Order = new OrderDTO()
                     {
-                        Id = "123456"
+                        Id = "123456",
+                        RestaurantId = "987654321"
                     }
                 };
                 await bus.PublishAsync(p);

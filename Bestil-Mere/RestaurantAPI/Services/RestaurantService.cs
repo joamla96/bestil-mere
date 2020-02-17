@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.SignalR;
 using Models;
 using Models.Messages.Logistics;
 using Models.Messages.Restaurant;
@@ -10,6 +11,7 @@ using Models.Restaurant;
 using RestaurantAPI.Models;
 using MongoDB.Driver;
 using RestaurantAPI.Db;
+using RestaurantAPI.Hubs;
 using RestaurantAPI.Messaging;
 using RestaurantAPI.Utils.Converters;
 
@@ -20,12 +22,18 @@ namespace RestaurantAPI.Services
        private readonly IMongoCollection<Restaurant> _restaurants;
        private readonly IMenuService _menuService;
        private readonly MessagePublisher _publisher;
+       private readonly IHubContext<RestaurantHub> _restaurantHub;
+       private readonly RestaurantConnections _restaurantConnections;
 
-        public RestaurantService(MongoDbManager mgr, IMenuService menuService, MessagePublisher publisher)
+        public RestaurantService(
+            MongoDbManager mgr, IMenuService menuService, MessagePublisher publisher,
+            IHubContext<RestaurantHub> restaurantHub, RestaurantConnections restaurantConnections)
         {
             _restaurants = mgr.Restaurants;
             _menuService = menuService;
             _publisher = publisher;
+            _restaurantHub = restaurantHub;
+            _restaurantConnections = restaurantConnections;
         }
 
         public async Task<List<RestaurantDTO>> Get()
@@ -81,7 +89,10 @@ namespace RestaurantAPI.Services
 
         public void RequestOrder(RestaurantOrderRequestModel ros)
         {
-            Console.WriteLine("Received message...");
+            Console.WriteLine($"Received order {ros.Order.Id}");
+
+            NotifyNewOrder(ros.Order.RestaurantId, ros.Order);
+            /*            
             _publisher.PublishDeliveryRequest(new DeliveryRequest()
             {
                 OrderId = ros.Order.Id,
@@ -96,6 +107,14 @@ namespace RestaurantAPI.Services
                 OrderId = ros.Order.Id,
                 Status = RestaurantOrderStatusDTO.Accepted
             });
+            */
+        }
+        
+        private async void NotifyNewOrder(string restaurantId, OrderDTO order)
+        {
+            var ci = await _restaurantConnections.GetConnectionIdAsync(restaurantId);
+            if (string.IsNullOrEmpty(ci)) return;
+            await _restaurantHub.Clients.Client(ci).SendAsync("orderUpdates", order);
         }
     }
 }
