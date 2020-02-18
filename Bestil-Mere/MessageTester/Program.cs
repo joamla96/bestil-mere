@@ -35,7 +35,7 @@ namespace MessageTester
                 await bus.PublishAsync(p);
             }
 
-            if (type == "cpm")
+            if (type == "ror")
             {
                 var p = new RestaurantOrderRequestModel()
                 {

@@ -28,6 +28,7 @@ import {LogisticsComponent} from './logistics/logistics.component';
 			{path: '', component: HomeComponent, pathMatch: 'full'},
 			{path: 'logistics', component: LogisticsComponent},
 			{path: 'order', loadChildren: () => import('./order/order.module').then(m => m.OrderModule)},
+			{path: 'restaurant', loadChildren: () => import('./restaurant/restaurant.module').then(m => m.RestaurantModule)},
 		])
 	],
 	providers: [],
