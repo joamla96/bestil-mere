@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using EasyNetQ;
+using Models;
 using Models.Messages.Logistics;
 using Models.Payment;
 using Models.Restaurant;
@@ -34,11 +35,11 @@ namespace MessageTester
                 await bus.PublishAsync(p);
             }
 
-            if (type == "cpm")
+            if (type == "ror")
             {
                 var p = new RestaurantOrderRequestModel()
                 {
-                    OrderId = "123456",
+                    Order = new OrderDTO()
                 };
                 await bus.PublishAsync(p);
             }

@@ -80,13 +80,13 @@ namespace RestaurantAPI.Services
 
         public void RequestOrder(RestaurantOrderRequestModel ros)
         {
-            Console.WriteLine("Received message...");
+            Console.WriteLine("[Restaurant Order Request] Waiting for response..");
             Thread.Sleep(5000);
             
-            Console.WriteLine("Sending message...");
+            Console.WriteLine($"[Restaurant Order Request] Order request accepted");
             _publisher.PublishRestaurantOrderStatus(new RestaurantOrderStatus()
             {
-                OrderId = ros.OrderId,
+                OrderId = ros.Order.Id,
                 Status = RestaurantOrderStatusDTO.Accepted
             });
         }
