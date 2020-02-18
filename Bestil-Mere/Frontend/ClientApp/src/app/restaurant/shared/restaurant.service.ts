@@ -11,13 +11,23 @@ import {Order} from './order';
 export class RestaurantService {
 	private url = environment.gateway;
 	hubConnection: signalR.HubConnection;
-	private restaurantUpdatesUrl = environment.gateway + 'restaurant-updates';
+	private restaurantUpdatesUrl = environment.gateway + 'restaurant/updates';
 
 	constructor(private http: HttpClient) {
 	}
 
 	getRestaurants(): Observable<any> {
-		return this.http.get(this.url + 'api/restaurants');
+		return this.http.get(this.url + 'restaurants');
+	}
+
+	acceptOrder(id): Observable<any> {
+		console.log("AcceptOrder called: " + id);
+		return this.http.patch(this.url + 'restaurants/accept-order/' + id, {});
+	}
+
+	rejectOrder(id): Observable<any> {
+		console.log("RejectOrder called: " + id);
+		return this.http.patch(this.url + 'restaurants/reject-order/' + id, {});
 	}
 
 	openConnection(restaurantId: string): Promise<void> {

@@ -41,8 +41,8 @@ namespace MessageTester
                 {
                     Order = new OrderDTO()
                     {
-                        Id = "123456",
-                        RestaurantId = "987654321"
+                        Id = "5e3294c243a4bd51b4786ffb",
+                        RestaurantId = "5e3294c243a4bd51b4786ffa"
                     }
                 };
                 await bus.PublishAsync(p);

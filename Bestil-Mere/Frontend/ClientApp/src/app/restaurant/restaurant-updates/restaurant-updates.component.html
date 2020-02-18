@@ -2,5 +2,5 @@
 
 
 <div *ngFor="let order of orders">
-	{{order.id}} <button>Accept</button> <button>Reject</button>
+	{{order.id}} <button (click)="acceptOrder(order.id)">Accept</button> <button (click)="rejectOrder(order.id)">Reject</button>
 </div>

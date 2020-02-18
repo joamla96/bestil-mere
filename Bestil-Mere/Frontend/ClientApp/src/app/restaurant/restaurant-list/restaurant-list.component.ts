@@ -3,6 +3,7 @@ import {RestaurantService} from '../shared/restaurant.service';
 import {first, switchMap} from "rxjs/operators";
 import {Restaurant} from "../shared/restaurant";
 import {Router} from "@angular/router";
+import {Observable} from "rxjs";
 
 @Component({
 	selector: 'app-restaurant-list',

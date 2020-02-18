@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using EasyNetQ;
 using Models.Messages.Logistics;
 using Models.Messages.Restaurant;
@@ -13,12 +14,12 @@ namespace RestaurantAPI.Messaging
             _bus = RabbitHutch.CreateBus(messagingSettings.ConnectionString);
         }
 
-        public async void PublishRestaurantOrderStatus(RestaurantOrderStatus ros)
+        public async Task PublishRestaurantOrderStatus(RestaurantOrderStatus ros)
         {
             await _bus.PublishAsync(ros);
         }
 
-        public async void PublishDeliveryRequest(DeliveryRequest dr)
+        public async Task PublishDeliveryRequest(DeliveryRequest dr)
         {
             await _bus.PublishAsync(dr);
         }

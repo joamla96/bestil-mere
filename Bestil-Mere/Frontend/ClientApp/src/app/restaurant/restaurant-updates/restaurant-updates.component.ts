@@ -38,4 +38,12 @@ export class RestaurantUpdatesComponent implements OnInit, OnDestroy {
 		}
 	}
 
+	acceptOrder(id) {
+		this.service.acceptOrder(id).subscribe();
+	}
+
+	rejectOrder(id) {
+		this.service.rejectOrder(id).subscribe();
+	}
+
 }

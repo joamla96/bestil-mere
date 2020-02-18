@@ -87,27 +87,36 @@ namespace RestaurantAPI.Services
         public void Remove(string id) => 
             _restaurants.DeleteOne(restaurant => restaurant.Id == id);
 
+        public async Task AcceptOrder(string orderId)
+        {
+            await _publisher.PublishDeliveryRequest(new DeliveryRequest()
+            {
+                OrderId = orderId,
+                DeliveryAddress = "",
+                PickupTime = DateTime.Now.AddMinutes(new Random().Next(10, 20))
+            });
+
+            await _publisher.PublishRestaurantOrderStatus(new RestaurantOrderStatus()
+            {
+                OrderId = orderId,
+                Status = RestaurantOrderStatusDTO.Accepted
+            });
+        }
+
+        public async Task RejectOrder(string orderId)
+        {
+            await _publisher.PublishRestaurantOrderStatus(new RestaurantOrderStatus()
+            {
+                OrderId = orderId,
+                Status = RestaurantOrderStatusDTO.Rejected
+            });
+        }
+        
         public void RequestOrder(RestaurantOrderRequestModel ros)
         {
             Console.WriteLine($"Received order {ros.Order.Id}");
 
             NotifyNewOrder(ros.Order.RestaurantId, ros.Order);
-            /*            
-            _publisher.PublishDeliveryRequest(new DeliveryRequest()
-            {
-                OrderId = ros.Order.Id,
-                DeliveryAddress = "",
-                PickupTime = DateTime.Now.AddMinutes(new Random().Next(10, 20))
-            });
-            Thread.Sleep(5000);
-            
-            Console.WriteLine("Sending message...");
-            _publisher.PublishRestaurantOrderStatus(new RestaurantOrderStatus()
-            {
-                OrderId = ros.Order.Id,
-                Status = RestaurantOrderStatusDTO.Accepted
-            });
-            */
         }
         
         private async void NotifyNewOrder(string restaurantId, OrderDTO order)
