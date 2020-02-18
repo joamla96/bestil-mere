@@ -7,7 +7,7 @@ import {Subscription} from 'rxjs';
 import {isNullOrUndefined} from 'util';
 
 @Component({
-	selector: 'app-order-updates',
+	selector: 'app-restaurant-updates',
 	templateUrl: './restaurant-updates.component.html',
 	styleUrls: ['./restaurant-updates.component.css']
 })

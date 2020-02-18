@@ -38,7 +38,7 @@ namespace RestaurantAPI
                     .AllowAnyMethod()
                     .AllowAnyHeader()
                     .WithOrigins("http://localhost:4200", "http://localhost:5021", "http://gateway.bestilmere.xyz",
-                        "http://localhost:5021", "https://gateway.bestilmere.xyz")
+                        "http://localhost:5000", "https://gateway.bestilmere.xyz")
                     .AllowCredentials();
             }));
             
