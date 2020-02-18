@@ -34,7 +34,7 @@ namespace Gateway
                 builder
                     .AllowAnyMethod()
                     .AllowAnyHeader()
-                    .WithOrigins("http://bestilmere.xyz", "http://localhost:4200")
+                    .WithOrigins("http://bestilmere.xyz", "http://localhost:4200", "https://bestilmere.xyz")
                     .AllowCredentials();
             }));
             services.AddSignalR();

@@ -3,5 +3,5 @@ export const environment = {
 	api: {
 		logistics: 'http://logisticsapi/api/'
 	},
-	gateway: 'http://gateway.bestilmere.xyz'
+	gateway: '//gateway.bestilmere.xyz/'
 };

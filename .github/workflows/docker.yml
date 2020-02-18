@@ -1,9 +1,13 @@
-name: Docker Build and Publish
+name: Docker Build, Publish & Azure Deploy
+
+env:
+  CLUSTER_NAME: bestilmere
+  CLUSTER_RESOURCE_GROUP: bestil-mere
+  NAMESPACE: default
 
 on: 
   push:
     branches: master
-    
 
 jobs:
   build:
@@ -21,3 +25,21 @@ jobs:
        cd Bestil-Mere
        docker-compose build
        docker-compose push
+       
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:        
+    - uses: actions/checkout@v2
+    # Set the target Azure Kubernetes Service (AKS) cluster. 
+    - uses: azure/aks-set-context@v1
+      with:
+        creds: '${{ secrets.AZURE_CREDENTIALS }}'
+        cluster-name: ${{ env.CLUSTER_NAME }}
+        resource-group: ${{ env.CLUSTER_RESOURCE_GROUP }}
+    
+    # Apply manifests incase of changes
+    - run: kubectl apply -f ./Bestil-Mere/kube-manifests
+    
+    # Rollout new deployemnt to get new images
+    - run: kubectl rollout restart deployment
