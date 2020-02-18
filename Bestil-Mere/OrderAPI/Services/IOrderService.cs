@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Models;
 using Models.Messages.Payment;
+using Models.Messages.Restaurant;
 using Models.Order;
 using OrderAPI.Models;
 
@@ -14,5 +15,6 @@ namespace OrderAPI.Services
         Task<Order> Create(CreateOrderModel order);
         void Remove(string id);
         void OnPaymentStatusUpdate(NewPaymentStatus status);
+        void OnRestaurantOrderStatus(RestaurantOrderStatus restaurantOrderStatus);
     }
 }

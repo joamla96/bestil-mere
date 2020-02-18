@@ -2,6 +2,6 @@ namespace Models.Restaurant
 {
     public class RestaurantOrderRequestModel
     {
-        public string OrderId { get; set; }
+        public OrderDTO Order { get; set; }
     }
 }

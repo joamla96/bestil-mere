@@ -21,15 +21,15 @@ namespace OrderAPI.Utils.Converters
                         MealItems = x.Meal.MealItems.Select(mi => new MealItemDTO()
                         {
                             Name = mi.Name
-                        }),
+                        }).ToList(),
                         ExtraMealItems = x.Meal.ExtraMealItems.Select(emi => new ExtraMealItemDTO()
                         {
                             Name = emi.Name,
                             Quantity = emi.Quantity
-                        })
+                        }).ToList()
                     },
                     Quantity = x.Quantity
-                })
+                }).ToList()
             };
         }
     }
