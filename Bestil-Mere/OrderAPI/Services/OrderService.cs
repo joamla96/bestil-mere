@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
 using Models;
 using Models.Messages.Payment;
+using Models.Messages.Restaurant;
 using Models.Order;
 using Models.Payment;
+using Models.Restaurant;
 using MongoDB.Driver;
 using OrderAPI.Db;
 using OrderAPI.Hubs;
@@ -71,7 +73,7 @@ namespace OrderAPI.Services
             // To make it simple, we should all this logic, messaging etc, and whenever the order is 
             // accepted/rejected by the res, return the order and make the client wait.
             await _orders.InsertOneAsync(order);
-            _publisher.AuthorizePaymentForOrder(order);
+            await _publisher.AuthorizePaymentForOrder(order);
             return order;
         }
 
@@ -85,9 +87,25 @@ namespace OrderAPI.Services
             
             if (status.Status != PaymentStatusDTO.Accepted) return;
             
-            Thread.Sleep(5000); // Emulate Restaurant's response to this new Order
+            // Contact restaurant-api with the order-request
+            var order = await Get(status.OrderId);
+            if (order == null)
+            {
+                Console.WriteLine($"[PaymentStatusUpdate] Order is null with id: {status.OrderId}");
+                return;
+            }
             Console.WriteLine($"[Payment Accepted] Proceeding with order..");
-            ProceedOrder(status.OrderId);
+            await _publisher.NewOrderRequest(order);
+            Console.WriteLine($"New Order request has been issued to restaurantAPI");
+        }
+
+        public void OnRestaurantOrderStatus(RestaurantOrderStatus restaurantOrderStatus)
+        {
+            if (restaurantOrderStatus.Status == RestaurantOrderStatusDTO.Accepted)
+            {
+                Console.WriteLine($"[OnRestaurantOrderStatus] Order with id {restaurantOrderStatus.OrderId} has been accepted");
+                ProceedOrder(restaurantOrderStatus.OrderId);
+            } 
         }
 
         private async void ProceedOrder(string statusOrderId)

@@ -33,4 +33,19 @@ spec:
   selector:
     app: gateway
   type: LoadBalancer
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: gateway-websocket-repeater
+  annotations:
+    kubernetes.io/ingress.class: azure/application-gateway
+spec:
+  rules:
+    - host: gateway.bestilmere.xyz
+      http:
+        paths:
+          - backend:
+              serviceName: gateway
+              servicePort: 80
 
