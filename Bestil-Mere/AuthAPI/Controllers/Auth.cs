@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AuthAPI.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class Auth : Controller
     {
         private JwtHandler _jwt;

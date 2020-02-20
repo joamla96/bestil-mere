@@ -37,9 +37,7 @@ namespace AuthAPI
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateAudience = false,
-​
                     ValidateIssuer = false,
-​
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = JwtSecurityKey.Key,
                     ValidateLifetime = true, //validate the expiration and not before values in the token

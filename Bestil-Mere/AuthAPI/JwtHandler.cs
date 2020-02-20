@@ -19,7 +19,7 @@ namespace AuthAPI
                 new Claim("role", user.Role),
                 new Claim("id", user.Id.ToString()),
             };
-​
+            
             var token = new JwtSecurityToken(
                 new JwtHeader(new SigningCredentials(
                     JwtSecurityKey.Key,
@@ -27,9 +27,10 @@ namespace AuthAPI
                 new JwtPayload(null,
                     null,
                     claims.ToArray(),
-                    DateTime.UtcNow,               // notBefore
-                    _accessTokenExpireDate));  // expires
-​
+                    DateTime.UtcNow,
+                    _accessTokenExpireDate)
+                ); 
+            
             return (new JwtSecurityTokenHandler().WriteToken(token), (int)TimeSpan.FromDays(3).TotalSeconds);
         }
     }
