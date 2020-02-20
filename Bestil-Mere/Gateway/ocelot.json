@@ -143,6 +143,18 @@
             ],
             "UpstreamPathTemplate": "/order/order-updates/negotiate",
             "UpstreamHttpMethod": [ "POST", "OPTIONS" ]
+        },
+        {
+            "DownstreamPathTemplate": "/restaurant-updates",
+            "DownstreamScheme": "ws",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "restaurantapi",
+                    "Port": 80
+                }
+            ],
+            "UpstreamPathTemplate": "/restaurant/updates",
+            "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ]
         }
     ],
     "GlobalConfiguration": {

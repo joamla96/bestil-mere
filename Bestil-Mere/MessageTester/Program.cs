@@ -40,6 +40,10 @@ namespace MessageTester
                 var p = new RestaurantOrderRequestModel()
                 {
                     Order = new OrderDTO()
+                    {
+                        Id = "5e3294c243a4bd51b4786ffb",
+                        RestaurantId = "5e3294c243a4bd51b4786ffa"
+                    }
                 };
                 await bus.PublishAsync(p);
             }

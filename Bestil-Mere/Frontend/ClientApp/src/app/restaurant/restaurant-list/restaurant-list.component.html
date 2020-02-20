@@ -1,0 +1,5 @@
+<h2>Liste af alle restauranter</h2>
+
+<div *ngFor="let r of restaurants">
+	{{r.restaurantName}} <button (click)="showRestaurantOrders(r.id)">Show orders</button>
+</div>
