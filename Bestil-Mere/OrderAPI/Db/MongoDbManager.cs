@@ -67,12 +67,28 @@ namespace OrderAPI.Db
                 {"key", new BsonDocument {{"Country", "1"}, {"CustomerId", "1"}}}
             };
             var command = new BsonDocumentCommand<BsonDocument>(partition);
-            await _db.RunCommandAsync(command);
-        }
+            await adminDb.RunCommandAsync(command);
+            
+            // disable Balancing
+            var ba = new BsonDocument
+            {
+                {
+                    "disableBalancing",
+                    $"{databaseName}.{Orders.CollectionNamespace.CollectionName}"
+                }
+            };
+            await adminDb.RunCommandAsync(new BsonDocumentCommand<BsonDocument>(ba));
+           
+            // Add shard zones
+            // addShardToZone()
+            
+            // Add tag ranges to zone
+            // addTagRange()
+            
+            // enable balancing again
+            // enableBalancing("OrderDb.Orders")
+            
 
-        public async Task EnableZoneShards()
-        {
-            // Enable the zone here
         }
     }
 }
