@@ -3,7 +3,7 @@ FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
 WORKDIR /source
 
 # copy csproj and restore as distinct layers
-COPY AuthApi/AuthAPI.csproj AuthAPI/
+COPY AuthAPI/AuthAPI.csproj AuthAPI/
 COPY Models/Models.csproj Models/
 RUN dotnet restore AuthAPI/AuthAPI.csproj
 
