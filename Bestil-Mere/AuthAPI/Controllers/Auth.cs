@@ -19,9 +19,9 @@ namespace AuthAPI.Controllers
             
             _users = new List<User>()
             {
-                new User() { Id = 0, Role = "User", Username = "PleaseUseThisDot"},
-                new User() { Id = 1, Role = "User", Username = "JavaScriptIsKing"},
-                new User() { Id = 2, Role = "User", Username = "Test"},
+                new User() { Id = 0, Role = "User", Username = "pleaseuse@this.dot"},
+                new User() { Id = 1, Role = "User", Username = "javaScript@is.king"},
+                new User() { Id = 2, Role = "User", Username = "test@example.com"},
             };
         }
         
