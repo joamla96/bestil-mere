@@ -29,6 +29,7 @@ import {LogisticsComponent} from './logistics/logistics.component';
 			{path: 'logistics', component: LogisticsComponent},
 			{path: 'order', loadChildren: () => import('./order/order.module').then(m => m.OrderModule)},
 			{path: 'restaurant', loadChildren: () => import('./restaurant/restaurant.module').then(m => m.RestaurantModule)},
+			{path: 'customer', loadChildren: () => import('./customer/customer.module').then(m => m.CustomerModule)},
 		])
 	],
 	providers: [],
