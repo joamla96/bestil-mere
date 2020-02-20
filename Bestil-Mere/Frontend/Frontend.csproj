@@ -24,7 +24,6 @@
         <Content Include="ClientApp\src\app\logistics\logistics.component.html" />
         <None Remove="$(SpaRoot)**" />
         <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
-        <None Include="ClientApp\src\app\restaurant\shared\restaurant.ts" />
     </ItemGroup>
 
     <ItemGroup>
