@@ -10,6 +10,7 @@ import {HomeComponent} from './home/home.component';
 import {CounterComponent} from './counter/counter.component';
 import {FetchDataComponent} from './fetch-data/fetch-data.component';
 import {LogisticsComponent} from './logistics/logistics.component';
+import {JwtInterceptor} from "./jwt.interceptor";
 
 @NgModule({
 	declarations: [
@@ -32,7 +33,13 @@ import {LogisticsComponent} from './logistics/logistics.component';
 			{path: 'customer', loadChildren: () => import('./customer/customer.module').then(m => m.CustomerModule)},
 		])
 	],
-	providers: [],
+	providers: [
+		{
+			provide: HTTP_INTERCEPTORS,
+			useClass: JwtInterceptor,
+			multi: true
+		}
+	],
 	bootstrap: [AppComponent]
 })
 export class AppModule {
