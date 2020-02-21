@@ -13,8 +13,8 @@ export class CustomerService {
   constructor(private http: HttpClient) { }
 
 	getCustomerProfile(): Observable<any> {
-  	let id = '5e4e62cd2bcdeb0001d79aa6';
-		return this.http.get(this.url + 'customers/' + id);
+  	let email = 'jesper@gmail.com';
+		return this.http.get(this.url + 'customers/email/' + email);
 	}
 
 	saveCustomerProfile(customer): Observable<any> {

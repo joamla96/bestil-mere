@@ -22,6 +22,9 @@ namespace CustomerAPI.Services
         public Customer Get(string id) =>
             _customers.Find<Customer>(customer => customer.Id == id).FirstOrDefault();
 
+        public Customer GetByEmail(string email) =>
+            _customers.Find<Customer>(customer => customer.Email == email).FirstOrDefault();
+
         public Customer Create(Customer customer)
         {
             _customers.InsertOne(customer);
