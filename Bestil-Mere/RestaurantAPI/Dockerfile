@@ -8,7 +8,8 @@ COPY Models/Models.csproj Models/
 RUN dotnet restore RestaurantAPI/RestaurantAPI.csproj
 
 # copy everything else and build app
-COPY . ./
+COPY ./ResturantAPI ./ResturantAPI/
+COPY ./Models ./Models/
 WORKDIR /source
 RUN dotnet publish RestaurantAPI/RestaurantAPI.csproj -c release -o /app
 
