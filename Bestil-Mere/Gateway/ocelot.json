@@ -10,7 +10,11 @@
                 }
             ],
             "UpstreamPathTemplate": "/customers/{id}",
-            "UpstreamHttpMethod": [ "Get", "Put", "Delete" ]
+            "UpstreamHttpMethod": [ "Get", "Put", "Delete" ],
+            "AuthenticationOptions": {
+                "AuthenticationProviderKey": "bestilmere",
+                "AllowedScopes": ["customer"]
+            }
         },
         {
             "DownstreamPathTemplate": "/api/customers",
