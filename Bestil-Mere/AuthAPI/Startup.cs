@@ -32,7 +32,7 @@ namespace AuthAPI
             services.AddTransient<JwtHandler>();
             
             // Add JWT based authentication
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer("bestilmere",options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
