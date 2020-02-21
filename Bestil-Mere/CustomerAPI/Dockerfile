@@ -9,7 +9,8 @@ RUN dotnet restore CustomerAPI/CustomerAPI.csproj
 
 # copy everything else and build app
 COPY ./CustomerAPI ./CustomerAPI/
-COPY ./Models ./Models/WORKDIR /source
+COPY ./Models ./Models/
+WORKDIR /source
 RUN dotnet publish CustomerAPI/CustomerAPI.csproj -c release -o /app
 
 # final stage/image
