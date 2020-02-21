@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,8 +21,8 @@ namespace AuthAPI.Controllers
             _users = new List<User>()
             {
                 new User() { Id = 0, Role = "User", Username = "pleaseuse@this.dot"},
-                new User() { Id = 1, Role = "User", Username = "javaScript@is.king"},
-                new User() { Id = 2, Role = "User", Username = "test@example.com"},
+                new User() { Id = 1, Role = "Admin", Username = "javascript@is.king", Scopes = new []{"restaurant"}},
+                new User() { Id = 2, Role = "User", Username = "test@example.com", Scopes = new []{"customer", "restaurant"}},
             };
         }
         

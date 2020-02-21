@@ -19,6 +19,12 @@ namespace AuthAPI
                 new Claim("role", user.Role),
                 new Claim("id", user.Id.ToString()),
             };
+
+            foreach (var scope in user.Scopes)
+            {
+                var claim = new Claim("scope", scope);
+                claims.Add(claim);
+            }
             
             var token = new JwtSecurityToken(
                 new JwtHeader(new SigningCredentials(
