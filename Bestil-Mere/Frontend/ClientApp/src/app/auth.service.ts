@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Observable, of} from "rxjs";
+import {Observable, of, throwError} from "rxjs";
 import {catchError, first, switchMap} from "rxjs/operators";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../environments/environment";
@@ -27,7 +27,7 @@ export class AuthService {
 				return of(!!jwtModel);
 			}));
 	}
-​
+
 	/**
 	 * Saves the Jwt to localstorage if the jwtModel is valid
 	 * @param jwtModel
@@ -43,8 +43,13 @@ export class AuthService {
 		return !!(JSON.parse(localStorage.getItem(this.JWT_MODEL)));
 	}
 
-	jwt(): string {
+	get jwt(): string {
 		const jwt = JSON.parse(localStorage.getItem(this.JWT_MODEL)) as JwtModel;
-		return jwt.jwt;
+		return jwt.access_token;
+	}
+
+	get userEmail(): string {
+		const jwt = JSON.parse(localStorage.getItem(this.JWT_MODEL)) as JwtModel;
+		return jwt.username;
 	}
 }

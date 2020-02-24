@@ -3,6 +3,7 @@ import {FormBuilder, Validators} from "@angular/forms";
 import {CustomerService} from "../shared/customer.service";
 import {first} from "rxjs/operators";
 import {Customer} from "../shared/customer";
+import {AuthService} from "../../auth.service";
 
 @Component({
   selector: 'app-customer-profile',
@@ -22,12 +23,13 @@ export class CustomerProfileComponent implements OnInit {
 		postalCode: ['']
 	});
 
-  constructor(private service: CustomerService, private fb: FormBuilder) {
-
-	}
+  constructor(private service: CustomerService,
+							private fb: FormBuilder,
+							private authService: AuthService) {	}
 
   ngOnInit() {
-		this.service.getCustomerProfile()
+  	let userEmail = this.authService.userEmail;
+		this.service.getCustomerProfile(userEmail)
 			.pipe(first())
 			.subscribe(data => {
 				this.customerProfile = data;
