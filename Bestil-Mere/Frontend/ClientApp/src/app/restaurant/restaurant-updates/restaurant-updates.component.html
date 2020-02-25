@@ -1,6 +1,22 @@
 <h2>List of incoming orders</h2>
 
 
-<div *ngFor="let order of orders">
-	{{order.id}} <button (click)="acceptOrder(order.id)">Accept</button> <button (click)="rejectOrder(order.id)">Reject</button>
+<div *ngFor="let order of orders" class="form-control-lg">
+	<div>
+		<span>{{order.id}}</span>
+
+		<div *ngIf="order.status == null" class="float-right">
+			<button (click)="acceptOrder(order.id)" class="btn btn-success">Accept</button>&nbsp;
+			<button (click)="rejectOrder(order.id)" class="btn btn-danger">Reject</button>
+		</div>
+
+		<div *ngIf="order.status == 'Accepted'" class="float-right">
+			<h4 class="text-success">Accepted</h4>
+		</div>
+
+		<div *ngIf="order.status == 'Rejected'" class="float-right">
+			<h4 class="text-danger">Rejected</h4>
+		</div>
+
+	</div>
 </div>

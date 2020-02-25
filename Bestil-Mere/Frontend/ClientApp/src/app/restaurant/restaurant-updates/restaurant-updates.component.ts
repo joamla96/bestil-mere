@@ -39,11 +39,16 @@ export class RestaurantUpdatesComponent implements OnInit, OnDestroy {
 	}
 
 	acceptOrder(id) {
+		this.updateOrder(id, "Accepted");
 		this.service.acceptOrder(id).subscribe();
 	}
 
 	rejectOrder(id) {
+		this.updateOrder(id, "Rejected");
 		this.service.rejectOrder(id).subscribe();
 	}
 
+	private updateOrder(id, status) {
+		this.orders.forEach(o => { if(o.id == id) o.status = status; })
+	}
 }
