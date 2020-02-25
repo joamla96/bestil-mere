@@ -1,0 +1,95 @@
+apiVersion: v1
+data:
+  init-configserver.js: |-
+    rs.initiate(
+       {
+          _id: "configserver",
+          configsvr: true,
+          version: 1,
+          members: [
+             { _id: 0, host : "config01:27017" },
+             { _id: 1, host : "config02:27017" },
+             { _id: 2, host : "config03:27017" }
+          ]
+       }
+    )
+  init-orders-zone-sharding.js: |+
+    sh.enableSharding("OrderDb")
+    sh.shardCollection("OrderDb.Orders", { Country: 1, CustomerId: 1})
+    sh.disableBalancing("OrderDb.Orders")
+    // Shard zones should be added when this script is running
+    // Add EU countries to zone
+    sh.addTagRange("OrderDb.Orders", {"Country": "DK", "CustomerId": MinKey}, {"Country": "DK", "CustomerId": MaxKey}, "EU")
+    sh.addTagRange("OrderDb.Orders", {"Country": "DE", "CustomerId": MinKey}, {"Country": "DE", "CustomerId": MaxKey}, "EU")
+    sh.addTagRange("OrderDb.Orders", {"Country": "SWE", "CustomerId": MinKey}, {"Country": "SWE", "CustomerId": MaxKey}, "EU")
+
+    // Add NA countries to zone
+    sh.addTagRange("OrderDb.Orders", {"Country": "US", "CustomerId": MinKey}, {"Country": "US", "CustomerId": MaxKey}, "NA")
+
+    // Add AS countries to zone
+    sh.addTagRange("OrderDb.Orders", {"Country": "CN", "CustomerId": MinKey}, {"Country": "CN", "CustomerId": MaxKey}, "AS")
+
+    // Enable balancing again
+    sh.startBalancer()
+    sh.enableBalancing("OrderDb.Orders")
+
+  init-router.js: |
+    sh.addShard("shard01/shard01a:27018")
+    sh.addShard("shard01/shard01b:27018")
+
+    sh.addShard("shard02/shard02a:27019")
+    sh.addShard("shard02/shard02b:27019")
+
+    sh.addShard("shard03/shard03a:27020")
+    sh.addShard("shard03/shard03b:27020")
+  init-shard-zones.js: |
+    sh.addShardToZone("shard01", "EU")
+    sh.addShardToZone("shard02", "NA")
+    sh.addShardToZone("shard03", "AS")
+  init-shard01.js: |
+    rs.initiate(
+       {
+          _id: "shard01",
+          version: 1,
+          members: [
+             { _id: 0, host : "shard01a:27018" },
+             { _id: 1, host : "shard01b:27018" },
+          ]
+       }
+    )
+  init-shard02.js: |
+    rs.initiate(
+       {
+          _id: "shard02",
+          version: 1,
+          members: [
+             { _id: 0, host : "shard02a:27019" },
+             { _id: 1, host : "shard02b:27019" },
+          ]
+       }
+    )
+  init-shard03.js: |
+    rs.initiate(
+       {
+          _id: "shard03",
+          version: 1,
+          members: [
+             { _id: 0, host : "shard03a:27020" },
+             { _id: 1, host : "shard03b:27020" },
+          ]
+       }
+    )
+  mongo-cluster-init.sh: "#!/bin/bash\nif [ ! -f ./.initialized ]; then\n\ttouch .initialized\n\tset
+    -m\n\tsleep 10\n\tmongos --port 27017 --configdb configserver/config01:27017,config02:27017,config03:27017
+    --bind_ip_all &\n\tmongo --host config01 --port 27017 < /scripts/init-configserver.js\n\tmongo
+    --host shard01a --port 27018 < /scripts/init-shard01.js\n\tmongo --host shard02a
+    --port 27019 < /scripts/init-shard02.js\n\tmongo --host shard03a --port 27020
+    < /scripts/init-shard03.js\n\tsleep 35\n\tmongo < /scripts/init-router.js\n\tmongo
+    < /scripts/init-shard-zones.js\n\tmongo < /scripts/init-orders-zone-sharding.js\n\tfg
+    %1\nfi\n\nif [ -f ./.initialized ]; then\n\techo \"Config has been initialized
+    once. Skipping configuration..\"\n\tmongos --port 27017 --configdb configserver/config01:27017,config02:27017,config03:27017
+    --bind_ip_all\nfi\n\n"
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: mongodb-scripts

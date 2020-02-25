@@ -2,7 +2,7 @@
 if [ ! -f ./.initialized ]; then
 	touch .initialized
 	set -m
-
+	sleep 10
 	mongos --port 27017 --configdb configserver/config01:27017,config02:27017,config03:27017 --bind_ip_all &
 	mongo --host config01 --port 27017 < /scripts/init-configserver.js
 	mongo --host shard01a --port 27018 < /scripts/init-shard01.js
