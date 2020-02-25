@@ -38,7 +38,7 @@
                 }
             ],
             "UpstreamPathTemplate": "/restaurants/{id}",
-            "UpstreamHttpMethod": [ "Get", "Put", "Delete" ]
+            "UpstreamHttpMethod": [ "Get", "Put", "Delete", "Patch" ]
         },
         {
             "DownstreamPathTemplate": "/api/restaurants",

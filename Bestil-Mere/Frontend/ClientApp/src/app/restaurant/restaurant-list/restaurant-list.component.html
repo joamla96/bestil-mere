@@ -1,5 +1,7 @@
 <h2>Liste af alle restauranter</h2>
 
-<div *ngFor="let r of restaurants">
-	{{r.restaurantName}} <button (click)="showRestaurantOrders(r.id)">Show orders</button>
+<div class="col-xs-12 col-xl-5 col-sm-10 col-md-7">
+<div *ngFor="let r of restaurants" class="form-group">
+	{{r.restaurantName}} <button (click)="showRestaurantOrders(r.id)" class="btn btn-success float-right">Show orders</button>
+</div>
 </div>
