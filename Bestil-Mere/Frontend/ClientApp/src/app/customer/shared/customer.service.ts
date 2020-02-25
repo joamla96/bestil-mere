@@ -12,8 +12,7 @@ export class CustomerService {
 
   constructor(private http: HttpClient) { }
 
-	getCustomerProfile(): Observable<any> {
-  	let email = 'jesper@gmail.com';
+	getCustomerProfile(email): Observable<any> {
 		return this.http.get(this.url + 'customers/email/' + email);
 	}
 

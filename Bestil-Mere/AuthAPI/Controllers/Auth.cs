@@ -21,8 +21,9 @@ namespace AuthAPI.Controllers
             _users = new List<User>()
             {
                 new User() { Id = 0, Role = "User", Username = "pleaseuse@this.dot"},
-                new User() { Id = 1, Role = "Admin", Username = "javascript@is.king", Scopes = new []{"restaurant"}},
-                new User() { Id = 2, Role = "User", Username = "test@example.com", Scopes = new []{"customer", "restaurant"}},
+                new User() { Id = 1, Role = "User", Username = "customer@mail.com", Scopes = new []{"customer"}},
+                new User() { Id = 2, Role = "Admin", Username = "javascript@is.king", Scopes = new []{"restaurant"}},
+                new User() { Id = 3, Role = "User", Username = "test@example.com", Scopes = new []{"customer", "restaurant"}},
             };
         }
         
@@ -38,7 +39,7 @@ namespace AuthAPI.Controllers
             }
 
             var jwt = _jwt.GenerateAccessToken(user);
-            return Ok(new ApiJwtModel() { access_token = jwt.Item1, expires_in = jwt.Item2});
+            return Ok(new ApiJwtModel() { access_token = jwt.Item1, expires_in = jwt.Item2, username = user.Username});
         }
     }
 }
