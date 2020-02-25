@@ -41,7 +41,7 @@ spec:
     targetPort: 27017
   selector:
     app: config01
-  type: NodePort
+  type: ClusterIP
 ---
 
 apiVersion: apps/v1
@@ -86,7 +86,7 @@ spec:
     targetPort: 27017
   selector:
     app: config02
-  type: NodePort
+  type: ClusterIP
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -130,7 +130,7 @@ spec:
     targetPort: 27017
   selector:
     app: config03
-  type: NodePort
+  type: ClusterIP
 ---
 ## Shards
 apiVersion: apps/v1
@@ -175,7 +175,7 @@ spec:
     targetPort: 27018
   selector:
     app: shard01a
-  type: NodePort
+  type: ClusterIP
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -219,7 +219,7 @@ spec:
     targetPort: 27018
   selector:
     app: shard01b
-  type: NodePort
+  type: ClusterIP
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -263,7 +263,7 @@ spec:
     targetPort: 27019
   selector:
     app: shard02a
-  type: NodePort
+  type: ClusterIP
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -307,7 +307,7 @@ spec:
     targetPort: 27019
   selector:
     app: shard02b
-  type: NodePort
+  type: ClusterIP
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -351,7 +351,7 @@ spec:
     targetPort: 27020
   selector:
     app: shard03a
-  type: NodePort
+  type: ClusterIP
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -395,7 +395,7 @@ spec:
     targetPort: 27020
   selector:
     app: shard03b
-  type: NodePort
+  type: ClusterIP
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -440,4 +440,4 @@ spec:
     targetPort: 27017
   selector:
     app: router
-  type: NodePort
+  type: ClusterIP
