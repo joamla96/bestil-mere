@@ -7,7 +7,8 @@ COPY Gateway/Gateway.csproj Gateway/
 RUN dotnet restore Gateway/Gateway.csproj
 
 # copy everything else and build app
-COPY . ./
+COPY ./Gateway ./Gateway/
+COPY ./Models ./Models/
 WORKDIR /source
 RUN dotnet publish Gateway/Gateway.csproj -c release -o /app
 
