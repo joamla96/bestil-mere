@@ -8,7 +8,8 @@ COPY Models/Models.csproj Models/
 RUN dotnet restore OrderAPI/OrderAPI.csproj
 
 # copy everything else and build app
-COPY . ./
+COPY ./OrderAPI ./OrderAPI/
+COPY ./Models ./Models/
 WORKDIR /source
 RUN dotnet publish OrderAPI/OrderAPI.csproj -c release -o /app
 

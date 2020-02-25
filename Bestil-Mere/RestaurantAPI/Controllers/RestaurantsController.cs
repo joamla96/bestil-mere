@@ -79,5 +79,25 @@ namespace RestaurantAPI.Controllers
 
             return NoContent();
         }
+
+        [Route("accept-order/{id:length(24)}")]
+        [HttpPatch]
+        public async Task<IActionResult> AcceptOrder(string id)
+        {
+            Console.WriteLine($"Accepted order: {id}");
+            await _restaurantService.AcceptOrder(id);
+            
+            return NoContent();
+        }
+
+        [Route("reject-order/{id:length(24)}")]
+        [HttpPatch]
+        public async Task<IActionResult> RejectOrder(string id)
+        {
+            Console.WriteLine($"Rejected order: {id}");
+            await _restaurantService.RejectOrder(id);
+            
+            return NoContent();
+        }
     }
 }

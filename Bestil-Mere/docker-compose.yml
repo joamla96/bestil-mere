@@ -10,6 +10,14 @@ services:
       - "443:443"
       - "80:80"
 
+  authapi:
+    image: ${DOCKER_REGISTRY}authapi
+    build:
+      context: .
+      dockerfile: AuthAPI/Dockerfile
+    ports:
+      - "53005:80"
+
   customerapi:
     image: ${DOCKER_REGISTRY}customerapi
     build:

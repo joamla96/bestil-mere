@@ -10,7 +10,11 @@
                 }
             ],
             "UpstreamPathTemplate": "/customers/{id}",
-            "UpstreamHttpMethod": [ "Get", "Put", "Delete" ]
+            "UpstreamHttpMethod": [ "Get", "Put", "Delete" ],
+            "AuthenticationOptions": {
+                "AuthenticationProviderKey": "bestilmere",
+                "AllowedScopes": ["customer"]
+            }
         },
         {
             "DownstreamPathTemplate": "/api/customers",
@@ -34,7 +38,7 @@
                 }
             ],
             "UpstreamPathTemplate": "/restaurants/{id}",
-            "UpstreamHttpMethod": [ "Get", "Put", "Delete" ]
+            "UpstreamHttpMethod": [ "Get", "Put", "Delete", "Patch" ]
         },
         {
             "DownstreamPathTemplate": "/api/restaurants",
@@ -143,6 +147,30 @@
             ],
             "UpstreamPathTemplate": "/order/order-updates/negotiate",
             "UpstreamHttpMethod": [ "POST", "OPTIONS" ]
+        },
+        {
+            "DownstreamPathTemplate": "/restaurant-updates",
+            "DownstreamScheme": "ws",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "restaurantapi",
+                    "Port": 80
+                }
+            ],
+            "UpstreamPathTemplate": "/restaurant/updates",
+            "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ]
+        },
+        {
+            "DownstreamPathTemplate": "/api/auth/login",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "authapi",
+                    "Port": 80
+                }
+            ],
+            "UpstreamPathTemplate": "/auth/login",
+            "UpstreamHttpMethod": [ "Post" ]
         }
     ],
     "GlobalConfiguration": {
