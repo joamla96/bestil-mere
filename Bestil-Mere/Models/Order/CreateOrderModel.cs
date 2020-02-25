@@ -9,6 +9,7 @@ namespace Models.Order
         public string CustomerId { get; set; }
         [Required]
         public string RestaurantId { get; set; }
+        [Required] public string Country { get; set; }
         [Required]
         public IEnumerable<CreateOrderLineModel> OrderLines { get; set; }
     }

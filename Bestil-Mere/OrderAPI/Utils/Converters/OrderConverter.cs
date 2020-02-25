@@ -11,6 +11,7 @@ namespace OrderAPI.Utils.Converters
             return new OrderDTO()
             {
                 Id = order.Id,
+                Country = order.Country,
                 CustomerId = order.CustomerId,
                 RestaurantId = order.RestaurantId,
                 OrderLines = order.OrderLines.Select(x => new OrderLineDTO()

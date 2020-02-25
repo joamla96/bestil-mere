@@ -7,6 +7,7 @@ namespace Models
         public string Id { get; set; }
         public string CustomerId { get; set; }
         public string RestaurantId { get; set; }
+        public string Country { get; set; }
         public IEnumerable<OrderLineDTO> OrderLines { get; set; }
     }
 }
