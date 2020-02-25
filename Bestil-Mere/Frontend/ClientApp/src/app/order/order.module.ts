@@ -4,6 +4,7 @@ import {CreateOrderComponent} from './create-order/create-order.component';
 import {Route, RouterModule} from '@angular/router';
 import { OrderUpdatesComponent } from './order-updates/order-updates.component';
 import { OrderListComponent } from './order-list/order-list.component';
+import {FormsModule} from "@angular/forms";
 
 const routes: Route[] = [
 	{
@@ -22,10 +23,11 @@ const routes: Route[] = [
 
 @NgModule({
 	declarations: [CreateOrderComponent, OrderUpdatesComponent, OrderListComponent],
-	imports: [
-		CommonModule,
-		RouterModule.forChild(routes)
-	]
+    imports: [
+        CommonModule,
+        RouterModule.forChild(routes),
+        FormsModule
+    ]
 })
 export class OrderModule {
 }

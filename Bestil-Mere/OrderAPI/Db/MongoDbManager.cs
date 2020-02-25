@@ -16,10 +16,5 @@ namespace OrderAPI.Db
             var db = client.GetDatabase(settings.DatabaseName);
             Orders = db.GetCollection<Order>(settings.OrdersCollectionName);
         }
-
-        public async Task InitShardingOnOrders()
-        {
-            
-        }
     }
 }

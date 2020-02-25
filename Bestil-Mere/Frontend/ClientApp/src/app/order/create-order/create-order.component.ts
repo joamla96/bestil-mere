@@ -12,6 +12,7 @@ import {RestaurantService} from "../../restaurant/shared/restaurant.service";
 })
 export class CreateOrderComponent implements OnInit {
 	restaurants: Restaurant[] = [];
+	pickedCountry = 'DK';
 
 	constructor(private service: OrderService, private router: Router, private restaurantService: RestaurantService) {
 	}
@@ -25,7 +26,7 @@ export class CreateOrderComponent implements OnInit {
 	}
 
 	createTestOrder(restaurantId): void {
-		this.service.createTestOrder(restaurantId)
+		this.service.createTestOrder(restaurantId, this.pickedCountry)
 			.pipe(first())
 			.subscribe(o => {
 					this.router.navigateByUrl('/order/order-updates?id=' + o.id);
