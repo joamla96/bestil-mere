@@ -20,7 +20,7 @@ spec:
         image: mongo:latest
         ports:
         - containerPort: 27017
-        command: ["mongod", "--port", "27017", "--configsvr", "--replSet", "configserver", "--oplogSize", "16"]
+        command: ["mongod", "--port", "27017", "--configsvr", "--replSet", "configserver", "--oplogSize", "16", "--bind_ip_all"]
         volumeMounts:
         - name: mongodb-configmap-volume
           mountPath: /scripts/
@@ -65,7 +65,7 @@ spec:
         image: mongo:latest
         ports:
         - containerPort: 27017
-        command: ["mongod", "--port", "27017", "--configsvr", "--replSet", "configserver", "--oplogSize", "16"]
+        command: ["mongod", "--port", "27017", "--configsvr", "--replSet", "configserver", "--oplogSize", "16", "--bind_ip_all"]
         volumeMounts:
         - name: mongodb-configmap-volume
           mountPath: /scripts/
@@ -109,7 +109,7 @@ spec:
         image: mongo:latest
         ports:
         - containerPort: 27017
-        command: ["mongod", "--port", "27017", "--configsvr", "--replSet", "configserver", "--oplogSize", "16"]
+        command: ["mongod", "--port", "27017", "--configsvr", "--replSet", "configserver", "--oplogSize", "16", "--bind_ip_all"]
         volumeMounts:
         - name: mongodb-configmap-volume
           mountPath: /scripts/
@@ -154,7 +154,7 @@ spec:
         image: mongo:latest
         ports:
         - containerPort: 27018
-        command: ["mongod", "--port", "27018", "--configsvr", "--replSet", "configserver", "--oplogSize", "16"]
+        command: ["mongod", "--port", "27018", "--configsvr", "--replSet", "configserver", "--oplogSize", "16", "--bind_ip_all"]
         volumeMounts:
         - name: mongodb-configmap-volume
           mountPath: /scripts/
@@ -198,7 +198,7 @@ spec:
         image: mongo:latest
         ports:
         - containerPort: 27018
-        command: ["mongod", "--port", "27018", "--configsvr", "--replSet", "configserver", "--oplogSize", "16"]
+        command: ["mongod", "--port", "27018", "--configsvr", "--replSet", "configserver", "--oplogSize", "16", "--bind_ip_all"]
         volumeMounts:
         - name: mongodb-configmap-volume
           mountPath: /scripts/
@@ -242,7 +242,7 @@ spec:
         image: mongo:latest
         ports:
         - containerPort: 27019
-        command: ["mongod", "--port", "27019", "--configsvr", "--replSet", "configserver", "--oplogSize", "16"]
+        command: ["mongod", "--port", "27019", "--configsvr", "--replSet", "configserver", "--oplogSize", "16", "--bind_ip_all"]
         volumeMounts:
         - name: mongodb-configmap-volume
           mountPath: /scripts/
@@ -286,7 +286,7 @@ spec:
         image: mongo:latest
         ports:
         - containerPort: 27019
-        command: ["mongod", "--port", "27019", "--configsvr", "--replSet", "configserver", "--oplogSize", "16"]
+        command: ["mongod", "--port", "27019", "--configsvr", "--replSet", "configserver", "--oplogSize", "16", "--bind_ip_all"]
         volumeMounts:
         - name: mongodb-configmap-volume
           mountPath: /scripts/
@@ -330,7 +330,7 @@ spec:
         image: mongo:latest
         ports:
         - containerPort: 27020
-        command: ["mongod", "--port", "27020", "--configsvr", "--replSet", "configserver", "--oplogSize", "16"]
+        command: ["mongod", "--port", "27020", "--configsvr", "--replSet", "configserver", "--oplogSize", "16", "--bind_ip_all"]
         volumeMounts:
         - name: mongodb-configmap-volume
           mountPath: /scripts/
@@ -374,7 +374,7 @@ spec:
         image: mongo:latest
         ports:
         - containerPort: 27020
-        command: ["mongod", "--port", "27020", "--configsvr", "--replSet", "configserver", "--oplogSize", "16"]
+        command: ["mongod", "--port", "27020", "--configsvr", "--replSet", "configserver", "--oplogSize", "16", "--bind_ip_all"]
         volumeMounts:
         - name: mongodb-configmap-volume
           mountPath: /scripts/
