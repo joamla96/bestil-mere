@@ -2,4 +2,9 @@
 	<h2>Bestil en ordre</h2>
 	<p>Herunder kan du bestille en ordre</p>
 </div>
-<button (click)="createTestOrder()">Lav test ordre</button>
+
+<div class="col-xs-12 col-xl-5 col-sm-10 col-md-7">
+	<div *ngFor="let r of restaurants" class="form-group">
+		{{r.restaurantName}} <button (click)="createTestOrder(r.id)" class="btn btn-primary float-right">Lav test ordre</button>
+	</div>
+</div>

@@ -2,44 +2,44 @@
 
 <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
 
-	<label>
-		First Name:
-		<input type="text" formControlName="firstName">
-	</label>
+	<div class="form-group">
+		<label for="firstName">First Name</label>
+		<input type="text" formControlName="firstName" class="form-control" />
+	</div>
 
-	<label>
-		Last Name:
-		<input type="text" formControlName="lastName">
-	</label>
+	<div class="form-group">
+		<label for="lastName">Last Name</label>
+		<input type="text" formControlName="lastName" class="form-control" />
+	</div>
 
-	<label>
-		Email:
-		<input type="email" formControlName="email">
-	</label>
+	<div class="form-group">
+		<label for="email">Email</label>
+		<input type="text" formControlName="email" class="form-control" />
+	</div>
 
 	<div>
 		<h3>Address</h3>
 
-		<label>
-			Street:
-			<input type="text" formControlName="address">
-		</label>
+		<div class="form-group">
+			<label for="address">Address</label>
+			<input type="text" formControlName="address" class="form-control" />
+		</div>
 
-		<label>
-			City:
-			<input type="text" formControlName="city">
-		</label>
+		<div class="form-group">
+			<label for="city">City</label>
+			<input type="text" formControlName="city" class="form-control" />
+		</div>
 
-		<label>
-			State:
-			<input type="text" formControlName="country">
-		</label>
+		<div class="form-group">
+			<label for="postalCode">Zip Code</label>
+			<input type="text" formControlName="postalCode" class="form-control" />
+		</div>
 
-		<label>
-			Zip Code:
-			<input type="text" formControlName="postalCode">
-		</label>
+		<div class="form-group">
+			<label for="country">Country</label>
+			<input type="text" formControlName="country" class="form-control" />
+		</div>
 	</div>
 
-	<button type="submit" [disabled]="!profileForm.valid">Submit</button>
+	<button type="submit" class="btn btn-primary" [disabled]="!profileForm.valid">Update Profile</button>
 </form>
