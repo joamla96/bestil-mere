@@ -8,7 +8,8 @@ COPY Models/Models.csproj Models/
 RUN dotnet restore AuthAPI/AuthAPI.csproj
 
 # copy everything else and build app
-COPY . ./
+COPY ./AuthAPI ./AuthAPI/
+COPY ./Models ./Models/
 WORKDIR /source
 RUN dotnet publish AuthAPI/AuthAPI.csproj -c release -o /app
 
