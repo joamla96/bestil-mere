@@ -58,6 +58,7 @@ namespace OrderAPI.Services
             var order = new Order
             {
                 CustomerId = createOrderModel.CustomerId,
+                Country = createOrderModel.Country,
                 RestaurantId = createOrderModel.RestaurantId,
                 OrderLines = createOrderModel.OrderLines.Select(x => new OrderLine()
                 {

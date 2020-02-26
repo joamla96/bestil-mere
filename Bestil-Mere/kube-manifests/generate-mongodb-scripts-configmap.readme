@@ -1,0 +1,1 @@
+kubectl create configmap mongodb-scripts --from-file=../mongodb-scripts/ -o yaml --dry-run

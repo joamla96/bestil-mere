@@ -2,6 +2,16 @@
 	<h2>Bestil en ordre</h2>
 	<p>Herunder kan du bestille en ordre</p>
 </div>
+<div class="form-group col-xs-12 col-xl-5 col-sm-10 col-md-7">
+	<label for="country-select">Vælg hvor ordren bliver bestilt fra</label>
+	<select class="form-control" id="country-select" [(ngModel)]="pickedCountry">
+		<option value="DK">Danmark</option>
+		<option value="SWE">Sverige</option>
+		<option value="CN">Tyskland</option>
+		<option value="US">USA</option>
+		<option value="CN">Kina</option>
+	</select>
+</div>
 
 <div class="col-xs-12 col-xl-5 col-sm-10 col-md-7">
 	<div *ngFor="let r of restaurants" class="form-group">
