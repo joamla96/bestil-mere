@@ -15,12 +15,13 @@ namespace AuthAPI
         {
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.UniqueName, user.Username),
-                new Claim("role", user.Role),
+                new Claim(JwtRegisteredClaimNames.UniqueName, user.Email),
+                new Claim("role", "User"),
                 new Claim("id", user.Id.ToString()),
             };
 
-            foreach (var scope in user.Scopes)
+            var scopes = new []{"customer"};
+            foreach (var scope in scopes)
             {
                 var claim = new Claim("scope", scope);
                 claims.Add(claim);
