@@ -57,4 +57,13 @@ export class AuthService {
         return null;
     }
 	}
+
+	get customerId(): string {
+		try{
+			return jwt_decode(this.jwt).id;
+		}
+		catch(Error){
+			return null;
+		}
+	}
 }

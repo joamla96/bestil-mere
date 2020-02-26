@@ -22,9 +22,9 @@ export class OrderService {
 		return this.http.get(this.url + 'orders/customerId/' + customerId);
 	}
 
-	createTestOrder(restaurantId: string, country: string): Observable<any> {
+	createTestOrder(restaurantId: string, country: string, customerId): Observable<any> {
 		const model: CreateOrderModel = {
-			customerId: '123123123',
+			customerId: customerId,
 			restaurantId: restaurantId,
 			country: country,
 			orderLines: [

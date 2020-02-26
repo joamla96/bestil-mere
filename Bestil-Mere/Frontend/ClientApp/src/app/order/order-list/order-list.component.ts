@@ -17,7 +17,7 @@ export class OrderListComponent implements OnInit {
 	}
 
 	ngOnInit() {
-		this.service.getOrders('123123123')
+		this.service.getOrders(this.authService.customerId)
 			.pipe(first())
 			.subscribe(data => {
 				this.orders = data;
