@@ -15,7 +15,6 @@ export class OrderUpdatesComponent implements OnInit, OnDestroy {
 	statusResps: OrderStatus[] = [];
 	OrderStatus = OrderStatus;
 	sub: Subscription;
-	accepted = false;
 	status = 'P';
 
 	constructor(private route: ActivatedRoute, private service: OrderService, private router: Router) {

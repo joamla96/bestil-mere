@@ -18,6 +18,10 @@ export class OrderService {
 	constructor(private http: HttpClient) {
 	}
 
+	getOrders(customerId): Observable<any> {
+		return this.http.get(this.url + 'orders/customerId/' + customerId);
+	}
+
 	createTestOrder(restaurantId): Observable<any> {
 		const model: CreateOrderModel = {
 			customerId: '123123123',

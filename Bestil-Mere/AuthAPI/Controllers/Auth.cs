@@ -39,7 +39,7 @@ namespace AuthAPI.Controllers
             }
 
             var jwt = _jwt.GenerateAccessToken(user);
-            return Ok(new ApiJwtModel() { access_token = jwt.Item1, expires_in = jwt.Item2, username = user.Username});
+            return Ok(new ApiJwtModel() { access_token = jwt.Item1, expires_in = jwt.Item2});
         }
     }
 }

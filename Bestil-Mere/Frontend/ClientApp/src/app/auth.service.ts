@@ -5,6 +5,7 @@ import {HttpClient} from "@angular/common/http";
 import {environment} from "../environments/environment";
 import {JwtModel} from "./shared/JwtModel";
 import {LoginModel} from "./shared/LoginModel";
+import * as jwt_decode from "jwt-decode";
 
 @Injectable({
   providedIn: 'root'
@@ -49,7 +50,11 @@ export class AuthService {
 	}
 
 	get userEmail(): string {
-		const jwt = JSON.parse(localStorage.getItem(this.JWT_MODEL)) as JwtModel;
-		return jwt.username;
+		try{
+      return jwt_decode(this.jwt).username;
+    }
+    catch(Error){
+        return null;
+    }
 	}
 }

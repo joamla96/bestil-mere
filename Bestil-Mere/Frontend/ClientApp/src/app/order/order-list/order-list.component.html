@@ -1,1 +1,10 @@
 <h2>Her kan du se alle de ordre du har lavet</h2>
+
+<div class="">
+	<div *ngFor="let order of orders" class="form-group">
+		<p class="text-info">
+			<span>Restaurant: {{order.restaurantId}}</span><br>
+			<span class="text-success">OrderId: {{order.id}}</span>
+		</p>
+	</div>
+</div>

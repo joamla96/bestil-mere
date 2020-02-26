@@ -47,6 +47,12 @@ namespace OrderAPI.Services
 
         }
 
+        public async Task<List<Order>> GetByCustId(string customerId)
+        {
+            var findAll = await _orders.FindAsync(o => o.CustomerId == customerId);
+            return await findAll.ToListAsync(); 
+        }
+
         public async Task<Order> Create(CreateOrderModel createOrderModel)
         {
             var order = new Order
