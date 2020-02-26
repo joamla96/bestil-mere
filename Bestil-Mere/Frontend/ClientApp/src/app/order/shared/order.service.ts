@@ -18,10 +18,11 @@ export class OrderService {
 	constructor(private http: HttpClient) {
 	}
 
-	createTestOrder(restaurantId): Observable<any> {
+	createTestOrder(restaurantId: string, country: string): Observable<any> {
 		const model: CreateOrderModel = {
 			customerId: '123123123',
 			restaurantId: restaurantId,
+			country: country,
 			orderLines: [
 				{
 					meal: {
