@@ -51,7 +51,7 @@ export class AuthService {
 
 	get userEmail(): string {
 		try{
-      return jwt_decode(this.jwt).username;
+      return jwt_decode(this.jwt).unique_name;
     }
     catch(Error){
         return null;
