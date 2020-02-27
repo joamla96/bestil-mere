@@ -15,7 +15,7 @@ export class OrderUpdatesComponent implements OnInit, OnDestroy {
 	statusResps: OrderStatus[] = [];
 	OrderStatus = OrderStatus;
 	sub: Subscription;
-	accepted = false;
+	status = 'P';
 
 	constructor(private route: ActivatedRoute, private service: OrderService, private router: Router) {
 	}
@@ -28,7 +28,13 @@ export class OrderUpdatesComponent implements OnInit, OnDestroy {
 				.subscribe((currentStatus: OrderStatus) => {
 					this.statusResps.push(currentStatus);
 					if (currentStatus === OrderStatus.Accepted) {
-						this.accepted = true;
+						this.status = 'A';
+						setTimeout(() => {
+								this.router.navigateByUrl('/order/order-list');
+						}, 5000);
+					}
+					if (currentStatus === OrderStatus.Rejected) {
+						this.status = 'R';
 						setTimeout(() => {
 								this.router.navigateByUrl('/order/order-list');
 						}, 5000);

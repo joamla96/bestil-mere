@@ -2,11 +2,17 @@
 
 
 <div *ngFor="let s of statusResps">
-	{{OrderStatus[s]}}
+	<p class="text-info">{{OrderStatus[s]}}</p>
 </div>
-<div *ngIf="accepted">
-	<p>
-		Din ordre er nu accepteret :) <br>
+<div *ngIf="status == 'A'">
+	<h4 class="text-success">Accepted</h4>
+	<p class="text-info">
+		Du vil blive viderestillet om 5 sekunder..
+	</p>
+</div>
+<div *ngIf="status == 'R'">
+	<h4 class="text-danger">Rejected</h4>
+	<p class="text-info">
 		Du vil blive viderestillet om 5 sekunder..
 	</p>
 </div>

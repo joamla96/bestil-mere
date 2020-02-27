@@ -2,8 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AuthAPI.Models;
 using Microsoft.AspNetCore.Mvc;
+using RestSharp;
 
 namespace AuthAPI.Controllers
 {
@@ -18,6 +20,7 @@ namespace AuthAPI.Controllers
         {
             _jwt = jwt;
             
+            /*
             _users = new List<User>()
             {
                 new User() { Id = 0, Role = "User", Username = "pleaseuse@this.dot"},
@@ -25,21 +28,28 @@ namespace AuthAPI.Controllers
                 new User() { Id = 2, Role = "Admin", Username = "javascript@is.king", Scopes = new []{"restaurant"}},
                 new User() { Id = 3, Role = "User", Username = "test@example.com", Scopes = new []{"customer", "restaurant"}},
             };
+            */
         }
         
         [HttpPost]
         [Route("[action]")]
-        public IActionResult Login([FromBody] ApiLoginModel model)
+        public async Task<IActionResult> Login([FromBody] ApiLoginModel model)
         {
-            var user = _users.FirstOrDefault(x => x.Username == model.Username);
+            var client = new RestClient("http://customerapi/api/customers");
+            var request = new RestRequest($"email/{model.Username}");
             
-            if (user == null) // TODO: Implement proper authentication in v2
+            var response = client.Get<User>(request);
+//            var user = _users.FirstOrDefault(x => x.Username == model.Username);
+            
+            var user = response.Data;
+            
+            if (!response.IsSuccessful) // TODO: Implement proper authentication in v2
             {
                 return Unauthorized("Could not login with the provided credentials");
             }
 
             var jwt = _jwt.GenerateAccessToken(user);
-            return Ok(new ApiJwtModel() { access_token = jwt.Item1, expires_in = jwt.Item2, username = user.Username});
+            return Ok(new ApiJwtModel() { access_token = jwt.Item1, expires_in = jwt.Item2});
         }
     }
 }

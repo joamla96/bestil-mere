@@ -2,9 +2,7 @@ namespace AuthAPI.Models
 {
     public class User
     {
-        public int Id;
-        public string Username;
-        public string Role;
-        public string[] Scopes;
+        public string Id { get; set; }
+        public string Email { get; set; }
     }
 }

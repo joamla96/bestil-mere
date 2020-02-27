@@ -47,6 +47,12 @@ namespace OrderAPI.Services
 
         }
 
+        public async Task<List<Order>> GetByCustId(string customerId)
+        {
+            var findAll = await _orders.FindAsync(o => o.CustomerId == customerId);
+            return await findAll.ToListAsync(); 
+        }
+
         public async Task<Order> Create(CreateOrderModel createOrderModel)
         {
             var order = new Order
@@ -105,14 +111,20 @@ namespace OrderAPI.Services
             if (restaurantOrderStatus.Status == RestaurantOrderStatusDTO.Accepted)
             {
                 Console.WriteLine($"[OnRestaurantOrderStatus] Order with id {restaurantOrderStatus.OrderId} has been accepted");
-                ProceedOrder(restaurantOrderStatus.OrderId);
+                ProceedOrder(restaurantOrderStatus.OrderId, OrderStatus.Accepted);
+            } 
+
+            if (restaurantOrderStatus.Status == RestaurantOrderStatusDTO.Rejected)
+            {
+                Console.WriteLine($"[OnRestaurantOrderStatus] Order with id {restaurantOrderStatus.OrderId} has been rejected");
+                ProceedOrder(restaurantOrderStatus.OrderId, OrderStatus.Rejected);
             } 
         }
 
-        private async void ProceedOrder(string statusOrderId)
+        private async void ProceedOrder(string statusOrderId, OrderStatus status)
         {
             var order = await Get(statusOrderId);
-            order.OrderStatus = OrderStatus.Accepted;
+            order.OrderStatus = status;
             
             // Notify the client that his order has been accepted
             NotifyClient(order.Id, order.OrderStatus);

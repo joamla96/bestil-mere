@@ -31,7 +31,7 @@ import {AuthGuard} from "./shared/auth.guard";
 		RouterModule.forRoot([
 			{path: '', component: HomeComponent, pathMatch: 'full'},
 			{path: 'logistics', component: LogisticsComponent},
-			{path: 'order', loadChildren: () => import('./order/order.module').then(m => m.OrderModule)},
+			{path: 'order', canActivate: [AuthGuard], loadChildren: () => import('./order/order.module').then(m => m.OrderModule)},
 			{path: 'restaurant', loadChildren: () => import('./restaurant/restaurant.module').then(m => m.RestaurantModule)},
 			{path: 'customer', canActivate: [AuthGuard], loadChildren: () => import('./customer/customer.module').then(m => m.CustomerModule)},
 			{path: 'login', component: LoginComponent}

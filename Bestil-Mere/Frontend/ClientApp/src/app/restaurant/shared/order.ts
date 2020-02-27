@@ -3,4 +3,5 @@ export class Order {
 	customerId: string;
 	restaurantId: string;
 	// TODO: OrderlinesDTO as prop
+	status: string;
 }

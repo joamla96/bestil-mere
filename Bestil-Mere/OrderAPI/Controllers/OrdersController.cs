@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Models;
@@ -36,6 +37,19 @@ namespace OrderAPI.Controllers
             }
 
             return Ok((await order).ToOrderDTO());
+        }
+
+        [Route("customerId/{customerId}")]
+        [HttpGet]
+        public async Task<IActionResult> GetByCustId(string customerId)
+        {
+            var order = _orderService.GetByCustId(customerId);
+
+            if (order == null)
+            {
+                return NotFound();
+            }
+            return Ok((await order).Select(o => o.ToOrderDTO()).ToList());
         }
 
         [HttpPost]

@@ -12,6 +12,7 @@ namespace OrderAPI.Services
     {
         Task<List<Order>> Get();
         Task<Order> Get(string id);
+        Task<List<Order>> GetByCustId(string customerId);
         Task<Order> Create(CreateOrderModel order);
         void Remove(string id);
         void OnPaymentStatusUpdate(NewPaymentStatus status);
