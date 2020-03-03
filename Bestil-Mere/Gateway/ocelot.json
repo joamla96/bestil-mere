@@ -14,7 +14,8 @@
             "AuthenticationOptions": {
                 "AuthenticationProviderKey": "bestilmere",
                 "AllowedScopes": ["customer"]
-            }
+            },
+            "SwaggerKey": "customers"
         },
         {
             "DownstreamPathTemplate": "/api/customers",
@@ -26,7 +27,8 @@
                 }
             ],
             "UpstreamPathTemplate": "/customers",
-            "UpstreamHttpMethod": [ "Get", "Post" ]
+            "UpstreamHttpMethod": [ "Get", "Post" ],
+            "SwaggerKey": "customers"
         },
         {
             "DownstreamPathTemplate": "/api/restaurants/{id}",
@@ -38,7 +40,8 @@
                 }
             ],
             "UpstreamPathTemplate": "/restaurants/{id}",
-            "UpstreamHttpMethod": [ "Get", "Put", "Delete", "Patch" ]
+            "UpstreamHttpMethod": [ "Get", "Put", "Delete", "Patch" ],
+            "SwaggerKey": "restaurants"
         },
         {
             "DownstreamPathTemplate": "/api/restaurants",
@@ -50,7 +53,8 @@
                 }
             ],
             "UpstreamPathTemplate": "/restaurants",
-            "UpstreamHttpMethod": [ "Get", "Post" ]
+            "UpstreamHttpMethod": [ "Get", "Post" ],
+            "SwaggerKey": "restaurants"
         },
         {
             "DownstreamPathTemplate": "/api/menus/{id}",
@@ -62,7 +66,8 @@
                 }
             ],
             "UpstreamPathTemplate": "/menus/{id}",
-            "UpstreamHttpMethod": [ "Get", "Put" ]
+            "UpstreamHttpMethod": [ "Get", "Put" ],
+            "SwaggerKey": "menus"
         },
         {
             "DownstreamPathTemplate": "/api/orders/{id}",
@@ -74,7 +79,8 @@
                 }
             ],
             "UpstreamPathTemplate": "/orders/{id}",
-            "UpstreamHttpMethod": [ "Get", "Put", "Delete" ]
+            "UpstreamHttpMethod": [ "Get", "Put", "Delete" ],
+            "SwaggerKey": "orders"
         },
         {
             "DownstreamPathTemplate": "/api/orders",
@@ -86,22 +92,11 @@
                 }
             ],
             "UpstreamPathTemplate": "/orders",
-            "UpstreamHttpMethod": [ "Get", "Post" ]
+            "UpstreamHttpMethod": [ "Get", "Post" ],
+            "SwaggerKey": "orders"
         },
         {
-            "DownstreamPathTemplate": "/api/logistics/{id}",
-            "DownstreamScheme": "http",
-            "DownstreamHostAndPorts": [
-                {
-                    "Host": "logisticapi",
-                    "Port": 80
-                }
-            ],
-            "UpstreamPathTemplate": "/logistics/{id}",
-            "UpstreamHttpMethod": [ "Get", "Put", "Delete" ]
-        },
-        {
-            "DownstreamPathTemplate": "/api/logistics",
+            "DownstreamPathTemplate": "/api/partner/{id}",
             "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
@@ -109,8 +104,22 @@
                     "Port": 80
                 }
             ],
-            "UpstreamPathTemplate": "/logistics",
-            "UpstreamHttpMethod": [ "Get", "Post" ]
+            "UpstreamPathTemplate": "/partner/{id}",
+            "UpstreamHttpMethod": [ "Get", "Put", "Delete" ],
+            "SwaggerKey": "logistics"
+        },
+        {
+            "DownstreamPathTemplate": "/api/partner",
+            "DownstreamScheme": "http",
+            "DownstreamHostAndPorts": [
+                {
+                    "Host": "logisticsapi",
+                    "Port": 80
+                }
+            ],
+            "UpstreamPathTemplate": "/partner",
+            "UpstreamHttpMethod": [ "Get", "Post" ],
+            "SwaggerKey": "logistics"
         },
         {
             "DownstreamPathTemplate": "/api/orders",
@@ -122,7 +131,8 @@
                 }
             ],
             "UpstreamPathTemplate": "/order/create-order",
-            "UpstreamHttpMethod": [ "Post" ]
+            "UpstreamHttpMethod": [ "Post" ],
+            "SwaggerKey": "orders"
         },
         {
             "DownstreamPathTemplate": "/order-updates",
@@ -170,7 +180,70 @@
                 }
             ],
             "UpstreamPathTemplate": "/auth/login",
-            "UpstreamHttpMethod": [ "Post" ]
+            "UpstreamHttpMethod": [ "Post" ],
+            "SwaggerKey": "auth"
+        }
+    ],
+    "SwaggerEndPoints": [
+        {
+            "Key": "auth",
+            "Config": [
+                {
+                    "Name": "Auth API",
+                    "Version": "v1",
+                    "Url": "http://authapi/swagger/v1/swagger.json"
+                }
+            ]
+        },
+        {
+            "Key": "customers",
+            "Config": [
+                {
+                    "Name": "Customers API",
+                    "Version": "v1",
+                    "Url": "http://customerapi/swagger/v1/swagger.json"
+                }
+            ]
+        },
+        {
+            "Key": "logistics",
+            "Config": [
+                {
+                    "Name": "Logistics API",
+                    "Version": "v1",
+                    "Url": "http://logisticsapi/swagger/v1/swagger.json"
+                }
+            ]
+        },
+        {
+            "Key": "orders",
+            "Config": [
+                {
+                    "Name": "Orders API",
+                    "Version": "v1",
+                    "Url": "http://orderapi/swagger/v1/swagger.json"
+                }
+            ]
+        },
+        {
+            "Key": "restaurants",
+            "Config": [
+                {
+                    "Name": "Restaurants API",
+                    "Version": "v1",
+                    "Url": "http://restaurantapi/swagger/v1/swagger.json"
+                }
+            ]
+        },
+        {
+            "Key": "menus",
+            "Config": [
+                {
+                    "Name": "Menu API",
+                    "Version": "v1",
+                    "Url": "http://restaurantapi/swagger/v1/swagger.json"
+                }
+            ]
         }
     ],
     "GlobalConfiguration": {

@@ -67,6 +67,8 @@ namespace Gateway
                 };
             });
             
+            services.AddSwaggerForOcelot(Configuration);
+            
             services.AddOcelot(Configuration);
         }
 
@@ -80,6 +82,11 @@ namespace Gateway
             }
 
             app.UseWebSockets();
+            
+            app.UseSwaggerForOcelotUI(Configuration, opt => {
+                opt.PathToSwaggerGenerator = "/swagger/docs";
+            });
+                
             await app.UseOcelot();
         }
     }

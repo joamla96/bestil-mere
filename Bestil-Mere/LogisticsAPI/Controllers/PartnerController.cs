@@ -10,11 +10,11 @@ namespace LogisticsAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class OrdersController : Controller
+    public class PartnerController : Controller
     {
         private readonly ILogisticsPartnerService _service;
 
-        public OrdersController(ILogisticsPartnerService service)
+        public PartnerController(ILogisticsPartnerService service)
         {
             _service = service;
         }
