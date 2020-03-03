@@ -96,7 +96,7 @@
             "SwaggerKey": "orders"
         },
         {
-            "DownstreamPathTemplate": "/api/logistics/{id}",
+            "DownstreamPathTemplate": "/api/partner/{id}",
             "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
@@ -104,12 +104,12 @@
                     "Port": 80
                 }
             ],
-            "UpstreamPathTemplate": "/logistics/{id}",
+            "UpstreamPathTemplate": "/partner/{id}",
             "UpstreamHttpMethod": [ "Get", "Put", "Delete" ],
             "SwaggerKey": "logistics"
         },
         {
-            "DownstreamPathTemplate": "/api/logistics",
+            "DownstreamPathTemplate": "/api/partner",
             "DownstreamScheme": "http",
             "DownstreamHostAndPorts": [
                 {
@@ -117,7 +117,7 @@
                     "Port": 80
                 }
             ],
-            "UpstreamPathTemplate": "/logistics",
+            "UpstreamPathTemplate": "/partner",
             "UpstreamHttpMethod": [ "Get", "Post" ],
             "SwaggerKey": "logistics"
         },
