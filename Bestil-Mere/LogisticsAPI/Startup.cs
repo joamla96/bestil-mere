@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Models;
 
 namespace LogisticsAPI
 {
@@ -42,8 +43,13 @@ namespace LogisticsAPI
             services.AddTransient<ILogisticsPartnerService, LogisticPartnerService>();
             services.AddTransient<IDeliveryService, DeliveryService>();
             
-            
             services.AddControllers();
+
+            // Register the Swagger generator, defining 1 or more Swagger documents
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Logistics API", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,6 +62,15 @@ namespace LogisticsAPI
 
             app.UseMessageListener(); // Listens for messages for order requests
 
+            app.UseSwagger();
+            
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
+            // specifying the Swagger JSON endpoint.
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Logistics API V1");
+            });
+            
             app.UseRouting();
 
             app.UseAuthorization();
