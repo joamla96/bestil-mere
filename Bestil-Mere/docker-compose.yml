@@ -10,6 +10,14 @@ services:
       - "443:443"
       - "80:80"
 
+  authapi:
+    image: ${DOCKER_REGISTRY}authapi
+    build:
+      context: .
+      dockerfile: AuthAPI/Dockerfile
+    ports:
+      - "53005:80"
+
   customerapi:
     image: ${DOCKER_REGISTRY}customerapi
     build:
@@ -42,7 +50,7 @@ services:
     ports:
       - "53003:80"
 
-  gataway:
+  gateway:
     image: ${DOCKER_REGISTRY}gateway
     build:
       context: .
@@ -63,7 +71,7 @@ services:
      - RABBITMQ_ERLANG_COOKIE=cluster_cookie
      - RABBITMQ_DEFAULT_USER=admin
      - RABBITMQ_DEFAULT_PASS=admin  
-
+ 
   mongodb:
     image: mongo:latest
     ports:
@@ -79,7 +87,10 @@ services:
       dockerfile: PaymentAPI/Dockerfile
     ports:
       - "5004:80"
- 
+  redis:
+   image: redis
+   ports:
+    - "53300:6379"
 volumes:
   db-data:
   mongo-config:

@@ -8,7 +8,8 @@ COPY Models/Models.csproj Models/
 RUN dotnet restore LogisticsAPI/LogisticsAPI.csproj
 
 # copy everything else and build app
-COPY . ./
+COPY ./LogisticsAPI ./LogisticsAPI/
+COPY ./Models ./Models/
 WORKDIR /source
 RUN dotnet publish LogisticsAPI/LogisticsAPI.csproj -c release -o /app
 

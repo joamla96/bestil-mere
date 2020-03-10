@@ -16,7 +16,8 @@ COPY Models/Models.csproj Models/
 RUN dotnet restore Frontend/Frontend.csproj
 
 # copy everything else and build app
-COPY . ./
+COPY ./Frontend ./Frontend/
+COPY ./Models ./Models/
 WORKDIR /source
 RUN dotnet publish Frontend/Frontend.csproj -c release -o /app
 

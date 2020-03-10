@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: logisticsapi-deployment
+  labels:
+    app: logisticsapi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: logisticsapi
+  template:
+    metadata:
+      labels:
+        app: logisticsapi
+    spec:
+      containers:
+      - name: logisticsapi
+        image: bestilmere/logisticsapi:latest
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: logisticsapi
+spec:
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: logisticsapi
+  type: ClusterIP
+

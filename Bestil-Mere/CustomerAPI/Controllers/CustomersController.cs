@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using CustomerAPI.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -23,6 +24,20 @@ namespace CustomerAPI.Controllers
         public ActionResult<Customer> Get(string id)
         {
             var customer = _customerService.Get(id);
+
+            if (customer == null)
+            {
+                return NotFound();
+            }
+
+            return customer;
+        }
+
+        [Route("email/{email}")]
+        [HttpGet]
+        public ActionResult<Customer> GetByEmail(string email)
+        {
+            var customer = _customerService.GetByEmail(email);
 
             if (customer == null)
             {

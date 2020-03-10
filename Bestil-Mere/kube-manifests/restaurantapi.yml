@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: restaurantapi-deployment
+  labels:
+    app: restaurantapi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: restaurantapi
+  template:
+    metadata:
+      labels:
+        app: restaurantapi
+    spec:
+      containers:
+      - name: restaurantapi
+        image: bestilmere/restaurantapi:latest
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: restaurantapi
+spec:
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: restaurantapi
+  type: ClusterIP
+

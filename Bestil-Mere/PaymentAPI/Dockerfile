@@ -8,7 +8,8 @@ COPY Models/Models.csproj Models/
 RUN dotnet restore PaymentAPI/PaymentAPI.csproj
 
 # copy everything else and build app
-COPY . ./
+COPY ./PaymentAPI ./PaymentAPI/
+COPY ./Models ./Models/
 WORKDIR /source
 RUN dotnet publish PaymentAPI/PaymentAPI.csproj -c release -o /app
 

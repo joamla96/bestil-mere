@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: customerapi-deployment
+  labels:
+    app: customerapi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: customerapi
+  template:
+    metadata:
+      labels:
+        app: customerapi
+    spec:
+      containers:
+      - name: customerapi
+        image: bestilmere/customerapi:latest
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: customerapi
+spec:
+  ports:
+  - name: http
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: customerapi
+  type: ClusterIP
+
